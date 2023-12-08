@@ -21,7 +21,9 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "engines": {
     "node": ">=16"
@@ -32,6 +34,18 @@
     "src/**/*"
   ],
   "devDependencies": {
+    "@lukasbach/eslint-config-deps": "^1.0.3",
+    "eslint": "^8.55.0",
     "typescript": "latest"
+  },
+  "eslintConfig": {
+    "extends": "@lukasbach/base",
+    "parserOptions": {
+      "project": "./tsconfig.json"
+    },
+    "ignorePatterns": [
+      "lib",
+      "*.js"
+    ]
   }
 }
