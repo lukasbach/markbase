@@ -23,7 +23,8 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "release": "publish-fast"
   },
   "engines": {
     "node": ">=16"
@@ -36,6 +37,7 @@
   "devDependencies": {
     "@lukasbach/eslint-config-deps": "^1.0.3",
     "eslint": "^8.55.0",
+    "publish-fast": "^0.0.20",
     "typescript": "latest"
   },
   "eslintConfig": {
@@ -47,5 +49,12 @@
       "lib",
       "*.js"
     ]
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "publish": {
+    "preScripts": "build,lint:test,test",
+    "releaseNotesSource": "next-releasenotes.md"
   }
 }
