@@ -1,5 +1,6 @@
 {
   "name": "document-fast",
+  "type": "commonjs",
   "version": "0.0.0",
   "private": true,
   "description": "Quickly generate an HTML page from a bunch of markdown files",
@@ -17,7 +18,7 @@
   ],
   "author": "Lukas Bach <contact@lukasbach.com>",
   "license": "MIT",
-  "type": "commonjs",
+  "bin": "lib/index.js",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
@@ -27,14 +28,14 @@
     "release": "publish-fast",
     "start": "esr src/index.ts"
   },
-  "engines": {
-    "node": ">=16"
-  },
   "files": [
     "lib/**/*",
     "!lib/**/*.spec.js",
     "src/**/*"
   ],
+  "dependencies": {
+    "commander": "^11.1.0"
+  },
   "devDependencies": {
     "@lukasbach/eslint-config-deps": "^1.0.3",
     "@types/node": "^20.10.4",
@@ -43,6 +44,9 @@
     "eslint": "^8.55.0",
     "publish-fast": "^0.0.20",
     "typescript": "latest"
+  },
+  "engines": {
+    "node": ">=16"
   },
   "eslintConfig": {
     "extends": "@lukasbach/base",
@@ -60,9 +64,5 @@
   "publish": {
     "preScripts": "build,lint:test,test",
     "releaseNotesSource": "next-releasenotes.md"
-  },
-  "bin": "lib/index.js",
-  "dependencies": {
-    "commander": "^11.1.0"
   }
 }
