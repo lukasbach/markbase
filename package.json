@@ -24,7 +24,8 @@
     "build": "tsc",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "release": "publish-fast"
+    "release": "publish-fast",
+    "start": "esr src/index.ts"
   },
   "engines": {
     "node": ">=16"
@@ -36,6 +37,9 @@
   ],
   "devDependencies": {
     "@lukasbach/eslint-config-deps": "^1.0.3",
+    "@types/node": "^20.10.4",
+    "esbuild": "^0.19.8",
+    "esbuild-runner": "^2.2.2",
     "eslint": "^8.55.0",
     "publish-fast": "^0.0.20",
     "typescript": "latest"
@@ -56,5 +60,9 @@
   "publish": {
     "preScripts": "build,lint:test,test",
     "releaseNotesSource": "next-releasenotes.md"
+  },
+  "bin": "lib/index.js",
+  "dependencies": {
+    "commander": "^11.1.0"
   }
 }
