@@ -3,6 +3,8 @@ import * as fs from "fs";
 import * as path from "path";
 import { Command } from "commander";
 import { sampleCommand } from "./commands/sample";
+import { buildCommand } from "./commands/build";
+import { watchCommand } from "./commands/watch";
 
 const program = new Command();
 
@@ -17,6 +19,10 @@ try {
   cliVersion = "unknown";
 }
 
-program.version(cliVersion).addCommand(sampleCommand);
+program
+  .version(cliVersion)
+  .addCommand(sampleCommand)
+  .addCommand(buildCommand)
+  .addCommand(watchCommand);
 
 program.parse();
