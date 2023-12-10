@@ -8,9 +8,11 @@ import { globAll } from "./utils";
 import { DocumentRenderer } from "./document-renderer";
 import { DocumentComponent } from "../components/document-component";
 
+export const DEFAULT_OUT_DIR = "out";
+
 export class DocumentBase {
   constructor(
-    private documents: DocumentFile[],
+    public readonly documents: DocumentFile[],
     public readonly config: DocumentBaseConfiguration,
     public readonly renderer: DocumentRenderer
   ) {}
@@ -61,15 +63,23 @@ export class DocumentBase {
   }
 
   getFolderSubfolders(folder: string) {
-    const subfolders = new Set<string>(
+    while (folder.endsWith(path.sep)) {
+      // eslint-disable-next-line no-param-reassign
+      folder = folder.substr(0, folder.length - 1);
+    }
+    const subfolders = new Set(
       this.documents
-        .filter((d) => d.getFolder().startsWith(path.normalize(`${folder}`)))
-        .map((d) => d.getFolder().split(path.sep)[1])
+        .map((d) => d.getFolder())
+        .filter((d) => d.startsWith(folder))
+        .map((d) => d.substring(folder.length))
+        .filter((d) => d !== "")
+        .map((d) => d.split(path.sep)[1])
+        .filter((d) => d !== "")
     );
     return [...subfolders];
   }
 
-  async build(outPath: string = this.config.out ?? "out") {
+  async build(outPath: string = this.config.out ?? DEFAULT_OUT_DIR) {
     await fs.ensureDir(outPath);
 
     for (const file of this.documents) {
@@ -78,10 +88,23 @@ export class DocumentBase {
       );
 
       let out = path.join(outPath, file.relativePath);
-      out = `${out.substr(0, out.length - path.extname(out).length)}.html`;
+      out = `${out.substr(
+        0,
+        out.length - path.extname(out).length
+      )}/index.html`;
 
       await fs.ensureDir(path.dirname(out));
       await fs.writeFile(out, content);
     }
+
+    await fs.copy(path.join(__dirname, "../dist-client"), outPath);
+    await fs.copy(
+      path.join(
+        __dirname,
+        "../themes",
+        `${this.config.theme ?? "default"}.css`
+      ),
+      path.join(outPath, "style.css")
+    );
   }
 }

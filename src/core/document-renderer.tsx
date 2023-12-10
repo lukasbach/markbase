@@ -14,6 +14,7 @@ export class DocumentRenderer {
       (await import("marked-alert")).default() as any,
       (await import("marked-base-url")).baseUrl as any,
       (await import("marked-code-format")).default as any,
+      // @ts-ignore
       (await import("marked-custom-heading-id")).default as any,
       (await import("marked-footnote")).default as any,
       (await import("marked-linkify-it")).default as any

@@ -23,12 +23,26 @@ export class DocumentFile {
   static async fromPath(filePath: string, rootPath: string) {
     return new DocumentFile(
       filePath,
-      path.relative(rootPath, filePath),
+      `${path.sep}${path.relative(rootPath, filePath)}`,
       await fs.readFile(filePath, "utf-8")
     );
   }
 
   getFolder() {
+    if (path.dirname(this.relativePath) === `.`) {
+      return "";
+    }
     return path.normalize(`${path.dirname(this.relativePath)}/`);
+  }
+
+  getDisplayName() {
+    return (
+      this.frontmatter.title ??
+      path.basename(this.relativePath, path.extname(this.relativePath))
+    );
+  }
+
+  getSlug() {
+    return this.relativePath.slice(0, -path.extname(this.relativePath).length);
   }
 }
