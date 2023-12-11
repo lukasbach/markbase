@@ -1,3 +1,4 @@
+/* General */
 html, body {
     height: 100%;
     margin: 0;
@@ -6,11 +7,14 @@ html, body {
 
 :root {
     --bg: #0a0a0a;
-    --fg: #fff;
+    --fg-highlighted: #ffffff;
+    --fg: #adadad;
     --tree-bg: #0f0f10;
-    --tree-fg: #adadad;
+    --tree-fg: var(--fg);
     --tree-fg-active: #fff;
     --primary: #307ee5;
+    --sidebar-margin: 1rem;
+    --border: rgba(255, 255, 255, 0.1);
 }
 
 #main {
@@ -20,6 +24,7 @@ html, body {
     color: var(--fg);
 }
 
+/* Main Layout */
 .content-inner, .left, .right {
     overflow: auto;
 }
@@ -42,8 +47,9 @@ html, body {
     max-width: 800px;
 }
 
+/* Tree */
 .tree {
-    margin: 2rem 1rem;
+    margin: 0 var(--sidebar-margin);
     padding: 0;
 }
 
@@ -84,7 +90,7 @@ html, body {
     background-color: #171717;
 }
 .tree li.active a, .tree li.active button {
-    color: var(--tree-fg-active);
+    color: var(--fg-highlighted);
 }
 
 .tree button svg:last-child {
@@ -99,10 +105,61 @@ html, body {
     overflow: hidden;
 }
 
-/*.tree [data-folder-item]:not(.open) > ul {*/
-/*    height: 0px !important;*/
-/*}*/
+/* Sidebar Styles */
+.page-header {
+    font-size: 1.2rem;
+    margin: 1rem var(--sidebar-margin);
+    display: flex;
+}
 
-/*[data-folder-item]:not(.open) > ul {
-    height: 0px !important;
-}*/
+.page-header a {
+    color: var(--fg-highlighted);
+    text-decoration: none;
+    font-weight: 500;
+    flex-grow: 1;
+}
+
+.color-mode-switch {
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: .5rem .5rem;
+    background-color: var(--tree-bg);
+    color: var(--fg);
+    cursor: pointer;
+}
+.dark .color-mode-switch .sun {
+    display: none;
+}
+.light .color-mode-switch .moon {
+    display: none;
+}
+
+.search-container {
+    margin: 1rem var(--sidebar-margin);
+}
+
+.search {
+    background-color: var(--bg);
+    border-radius: 4px;
+    padding: .3rem .6rem;
+    border: 1px solid var(--border);
+    display: flex;
+    color: var(--fg);
+    width: 100%;
+    gap: .2rem;
+    align-items: center;
+    cursor: pointer;
+}
+
+.search .text {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.search .kbd {
+    color: var(--fg-highlighted);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background-color: var(--tree-bg);
+    padding: .2rem .4rem;
+}

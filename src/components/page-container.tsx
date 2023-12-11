@@ -1,4 +1,6 @@
 import React, { FC, PropsWithChildren, ReactNode } from "react";
+import { HiSearch } from "react-icons/hi";
+import { HiLightBulb, HiMoon, HiSun } from "react-icons/hi2";
 import { DocumentBase } from "../core/document-base";
 import { DocumentFile } from "../core/document-file";
 import { Tree } from "./tree";
@@ -26,6 +28,26 @@ export const PageContainer: FC<
       <body>
         <div id="main">
           <div className="left">
+            <header className="page-header">
+              <a href={`${base.config.relativeUrl ?? ""}/`}>
+                {base.config.title ?? "Home"}
+              </a>
+              <button className="color-mode-switch">
+                <span className="sun">
+                  <HiSun />
+                </span>
+                <span className="moon">
+                  <HiMoon />
+                </span>
+              </button>
+            </header>
+            <div className="search-container">
+              <button className="search">
+                <HiSearch />
+                <span className="text">Search...</span>
+                <span className="kbd">Ctrl + K</span>
+              </button>
+            </div>
             <Tree base={base} doc={doc} />
           </div>
           <div className="content">

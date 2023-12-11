@@ -1,4 +1,5 @@
 export type DocumentBaseConfiguration = {
+  title?: string;
   documents?: string[];
   assets?: string[];
   out?: string;
