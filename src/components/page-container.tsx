@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren } from "react";
+import React, { FC, PropsWithChildren, ReactNode } from "react";
 import { DocumentBase } from "../core/document-base";
 import { DocumentFile } from "../core/document-file";
 import { Tree } from "./tree";
@@ -7,14 +7,19 @@ export const PageContainer: FC<
   PropsWithChildren<{
     base: DocumentBase;
     doc: DocumentFile;
+    right?: ReactNode;
   }>
-> = ({ children, doc, base }) => {
+> = ({ children, doc, base, right }) => {
   return (
     <html>
       <head>
         <link
           rel="stylesheet"
           href={`${base.config.relativeUrl ?? ""}/style.css`}
+        />
+        <link
+          rel="stylesheet"
+          href={`${base.config.relativeUrl ?? ""}/content.css`}
         />
         <title>{doc.getDisplayName()}</title>
       </head>
@@ -26,7 +31,7 @@ export const PageContainer: FC<
           <div className="content">
             <div className="content-inner">{children}</div>{" "}
           </div>
-          <div className="right">Right</div>
+          <div className="right">{right}</div>
         </div>
         <script src={`${base.config.relativeUrl ?? ""}/client.js`} />
       </body>

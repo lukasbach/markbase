@@ -5,9 +5,11 @@ html, body {
 }
 
 :root {
-    --bg: #090909;
+    --bg: #0a0a0a;
     --fg: #fff;
-    --tree-fg: #c7c7c7;
+    --tree-bg: #0f0f10;
+    --tree-fg: #adadad;
+    --tree-fg-active: #fff;
     --primary: #307ee5;
 }
 
@@ -18,8 +20,16 @@ html, body {
     color: var(--fg);
 }
 
+.content-inner, .left, .right {
+    overflow: auto;
+}
+
 .left, .right {
     width: 240px;
+}
+
+.left {
+    background-color: var(--tree-bg);
 }
 
 .content {
@@ -30,6 +40,11 @@ html, body {
 
 .content-inner {
     max-width: 800px;
+}
+
+.tree {
+    margin: 2rem 1rem;
+    padding: 0;
 }
 
 .tree ul {
@@ -48,7 +63,7 @@ html, body {
     width: 100%;
     box-sizing: border-box;
     margin: 0 0 2px;
-    padding: .2rem .5rem;
+    padding: .2rem .6rem;
     border-radius: 4px;
 
     text-decoration: none;
@@ -69,7 +84,7 @@ html, body {
     background-color: #171717;
 }
 .tree li.active a, .tree li.active button {
-    color: var(--primary);
+    color: var(--tree-fg-active);
 }
 
 .tree button svg:last-child {

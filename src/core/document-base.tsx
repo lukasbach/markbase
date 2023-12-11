@@ -106,5 +106,9 @@ export class DocumentBase {
       ),
       path.join(outPath, "style.css")
     );
+    await fs.copy(
+      path.join(__dirname, "../themes/content.css"),
+      path.join(outPath, "content.css")
+    );
   }
 }
