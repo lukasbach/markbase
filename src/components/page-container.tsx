@@ -1,6 +1,6 @@
 import React, { FC, PropsWithChildren, ReactNode } from "react";
 import { HiSearch } from "react-icons/hi";
-import { HiLightBulb, HiMoon, HiSun } from "react-icons/hi2";
+import { HiMoon, HiSun } from "react-icons/hi2";
 import { DocumentBase } from "../core/document-base";
 import { DocumentFile } from "../core/document-file";
 import { Tree } from "./tree";

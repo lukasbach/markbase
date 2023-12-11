@@ -26,7 +26,7 @@ html, body {
 
 /* Main Layout */
 .content-inner, .left, .right {
-    overflow: auto;
+    overflow: visible;
 }
 
 .left, .right {
@@ -41,6 +41,7 @@ html, body {
     flex-grow: 1;
     display: flex;
     justify-content: center;
+    overflow: auto;
 }
 
 .content-inner {
@@ -162,4 +163,29 @@ html, body {
     border-radius: 4px;
     background-color: var(--tree-bg);
     padding: .2rem .4rem;
+}
+
+/* Content TODO move */
+h1, h2, h3, h4, h5, h6 {
+    position: relative;
+    overflow: visible;
+}
+h1:hover .anchor, h2:hover .anchor, h3:hover .anchor, h4:hover .anchor, h5:hover .anchor, h6:hover .anchor {
+    opacity: 1;
+}
+.anchor, .anchor:visited {
+    position: absolute;
+    left: -1.5rem;
+    bottom: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    color: var(--fg);
+}
+.anchor:hover {
+    color: var(--fg-highlighted);
+}
+.anchor svg {
+    width: 1rem;
 }
