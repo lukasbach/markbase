@@ -39,4 +39,6 @@ watchCommand.action(async (basePath, options: BuildOptions) => {
   server.listen(options.port, () => {
     console.log(`Server listening on http://localhost:${options.port}`);
   });
+
+  base.logStats();
 });

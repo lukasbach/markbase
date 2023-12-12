@@ -3,7 +3,7 @@ import * as fs from "fs-extra";
 import { renderToString } from "react-dom/server";
 import React from "react";
 import { DocumentFile } from "./document-file";
-import { DocumentBaseConfiguration } from "./types";
+import { BaseStats, DocumentBaseConfiguration } from "./types";
 import { globAll } from "./utils";
 import { DocumentRenderer } from "./document-renderer";
 import { DocumentComponent } from "../components/document-component";
@@ -11,11 +11,21 @@ import { DocumentComponent } from "../components/document-component";
 export const DEFAULT_OUT_DIR = "out";
 
 export class DocumentBase {
+  public stats: BaseStats = {
+    documents: 0,
+    assets: 0,
+    characters: 0,
+    size: 0,
+    words: 0,
+  };
+
   constructor(
     public readonly documents: DocumentFile[],
     public readonly config: DocumentBaseConfiguration,
     public readonly renderer: DocumentRenderer
-  ) {}
+  ) {
+    this.calculateStats();
+  }
 
   static async fromPath(basePath: string) {
     const config = await DocumentBase.loadConfig(basePath);
@@ -110,5 +120,31 @@ export class DocumentBase {
       path.join(__dirname, "../themes/content.css"),
       path.join(outPath, "content.css")
     );
+  }
+
+  public logStats() {
+    // eslint-disable-next-line no-console
+    console.log(
+      `Found ${this.stats.documents} documents with ${
+        this.stats.words
+      } words, ${this.stats.characters} characters, ${Math.floor(
+        this.stats.size / 1024
+      )}KB`
+    );
+  }
+
+  private calculateStats() {
+    this.stats = {
+      documents: this.documents.length,
+      assets: 0,
+      characters: 0,
+      size: 0,
+      words: 0,
+    };
+    for (const doc of this.documents) {
+      this.stats.characters += doc.rawMarkdown.length;
+      this.stats.size += doc.fileSize;
+      this.stats.words += doc.rawMarkdown.split(/\s+/).length;
+    }
   }
 }

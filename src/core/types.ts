@@ -13,3 +13,11 @@ export type TocEntry = {
   id: string;
   children?: TocEntry[];
 };
+
+export type BaseStats = {
+  documents: number;
+  assets: number;
+  size: number;
+  words: number;
+  characters: number;
+};

@@ -14,4 +14,5 @@ buildCommand.option("-o, --out <path>", "Path to the output directory");
 buildCommand.action(async (basePath, options: BuildOptions) => {
   const base = await DocumentBase.fromPath(basePath);
   await base.build(options.out);
+  base.logStats();
 });

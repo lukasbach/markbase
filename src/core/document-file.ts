@@ -12,7 +12,8 @@ export class DocumentFile {
   constructor(
     public readonly fullPath: string,
     public readonly relativePath: string,
-    public readonly contents: string
+    public readonly contents: string,
+    public readonly fileSize: number
   ) {
     const { data, excerpt, content } = grayMatter(contents, { excerpt: true });
     this.frontmatter = data;
@@ -24,7 +25,8 @@ export class DocumentFile {
     return new DocumentFile(
       filePath,
       `${path.sep}${path.relative(rootPath, filePath)}`,
-      await fs.readFile(filePath, "utf-8")
+      await fs.readFile(filePath, "utf-8"),
+      await fs.stat(filePath).then((stats) => stats.size)
     );
   }
 
