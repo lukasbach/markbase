@@ -14,14 +14,25 @@ html, body {
 
 :root {
     --bg: #0a0a0a;
+    --bg-dim: #0f0f10;
+    --bg-highlighted: #171717;
     --fg-highlighted: #ffffff;
     --fg: #adadad;
-    --tree-bg: #0f0f10;
-    --tree-fg: var(--fg);
-    --tree-fg-active: #fff;
+    --fg-muted: #919191;
     --primary: #307ee5;
     --sidebar-margin: 1rem;
     --border: rgba(255, 255, 255, 0.1);
+}
+.light {
+    --bg: #ffffff;
+    --bg-dim: #f5f5f5;
+    --bg-highlighted: #d9dce1;
+    --fg-highlighted: #000000;
+    --fg: #232323;
+    --fg-muted: #4d4d4d;
+    --primary: #307ee5;
+    --sidebar-margin: 1rem;
+    --border: rgba(0, 0, 0, 0.1);
 }
 
 #main {
@@ -40,8 +51,19 @@ html, body {
     width: 240px;
 }
 
+.right {
+    position: relative;
+}
+.right-inner {
+    position: fixed;
+    max-height: 100vh;
+    overflow: auto;
+}
+
 .left {
-    background-color: var(--tree-bg);
+    background-color: var(--bg-dim);
+    overflow: auto;
+    border-right: 1px solid var(--border);
 }
 
 .content {
@@ -53,9 +75,18 @@ html, body {
 
 .content-inner {
     max-width: 800px;
+    min-width: 600px;
 }
 
 /* Tree */
+.sidebar-header {
+    margin: 1rem calc(var(--sidebar-margin) + .7rem) .2rem calc(var(--sidebar-margin) + .7rem);
+    font-size: 1rem;
+    color: var(--fg-highlighted);
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
 .tree {
     margin: 0 var(--sidebar-margin);
     padding: 0;
@@ -81,7 +112,7 @@ html, body {
     border-radius: 4px;
 
     text-decoration: none;
-    border: none;
+    border: none !important;
     background: none;
     font: inherit;
     text-align: left;
@@ -89,16 +120,21 @@ html, body {
     outline: none;
 
     font-weight: 500;
-    color: var(--tree-fg);
+    font-size: .9rem;
+    color: var(--fg);
 }
 .tree button span, .tree a span {
     flex-grow: 1;
 }
 .tree button:hover, .tree a:hover, .tree li.active a, .tree li.active button {
-    background-color: #171717;
+    background-color: var(--bg-highlighted);
 }
 .tree li.active a, .tree li.active button {
     color: var(--fg-highlighted);
+}
+.tree button:focus-visible, .tree a:focus-visible {
+    outline: 1px solid var(--fg-highlighted);
+    outline-offset: -2px;
 }
 
 .tree button svg:last-child {
@@ -125,13 +161,14 @@ html, body {
     text-decoration: none;
     font-weight: 500;
     flex-grow: 1;
+    border: none !important;
 }
 
 .color-mode-switch {
     border-radius: 999px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     padding: .5rem .5rem;
-    background-color: var(--tree-bg);
+    background-color: var(--bg-dim);
     color: var(--fg);
     cursor: pointer;
 }
@@ -168,8 +205,14 @@ html, body {
     color: var(--fg-highlighted);
     border: 1px solid var(--border);
     border-radius: 4px;
-    background-color: var(--tree-bg);
+    background-color: var(--bg-dim);
     padding: .2rem .4rem;
+}
+
+.search:hover, .search:focus-visible {
+    border: 1px solid var(--fg-muted);
+    background-color: var(--bg-highlighted);
+
 }
 
 /* Content TODO move */
@@ -177,7 +220,8 @@ h1, h2, h3, h4, h5, h6 {
     position: relative;
     overflow: visible;
 }
-h1:hover .anchor, h2:hover .anchor, h3:hover .anchor, h4:hover .anchor, h5:hover .anchor, h6:hover .anchor {
+h1:hover .anchor, h2:hover .anchor, h3:hover .anchor, h4:hover .anchor, h5:hover .anchor, h6:hover .anchor,
+h1:focus-within .anchor, h2:focus-within .anchor, h3:focus-within .anchor, h4:focus-within .anchor, h5:focus-within .anchor, h6:focus-within .anchor {
     opacity: 1;
 }
 .anchor, .anchor:visited {
@@ -189,10 +233,51 @@ h1:hover .anchor, h2:hover .anchor, h3:hover .anchor, h4:hover .anchor, h5:hover
     align-items: center;
     opacity: 0;
     color: var(--fg);
+    border: none !important;
 }
 .anchor:hover {
     color: var(--fg-highlighted);
 }
 .anchor svg {
     width: 1rem;
+}
+
+h1 {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: .5rem;
+    font-size: 2.2rem;
+}
+h2 {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: .5rem;
+    margin: 2rem 0 0 0;
+}
+h3 {
+    margin: 2rem 0 0 0;
+}
+h4 {
+    margin: 2rem 0 0 0;
+}
+h5 {
+    margin: 2rem 0 0 0;
+}
+h6 {
+    margin: 2rem 0 0 0;
+}
+a {
+    text-decoration: none;
+    border-bottom: 1px dashed var(--fg-muted);
+    color: var(--fg);
+}
+a:hover {
+    color: var(--fg-highlighted);
+    border-bottom: 1px solid var(--fg-highlighted);
+}
+blockquote {
+    border-left: 4px solid var(--primary);
+    background-color: var(--bg-dim);
+    margin-left: 1rem;
+    padding: 1px 1rem;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
 }

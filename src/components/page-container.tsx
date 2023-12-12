@@ -51,9 +51,11 @@ export const PageContainer: FC<
             <Tree base={base} doc={doc} />
           </div>
           <div className="content">
-            <div className="content-inner">{children}</div>{" "}
+            <div className="content-inner">{children}</div>
+            <div className="right">
+              <div className="right-inner">{right}</div>
+            </div>
           </div>
-          <div className="right">{right}</div>
         </div>
         <script src={`${base.config.relativeUrl ?? ""}/client.js`} />
       </body>
