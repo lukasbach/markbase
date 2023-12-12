@@ -3,6 +3,7 @@ import path from "path";
 import { HiOutlineChevronRight } from "react-icons/hi2";
 import { DocumentBase } from "../core/document-base";
 import { DocumentFile } from "../core/document-file";
+import { IconByString } from "./icon-by-string";
 
 export const SubTree: FC<{
   base: DocumentBase;
@@ -31,7 +32,12 @@ export const SubTree: FC<{
           className={item.getSlug() === doc.getSlug() ? "active" : ""}
           key={item.getSlug()}
         >
-          <a href={item.getSlug()}>{item.getDisplayName()}</a>
+          <a href={item.getSlug()}>
+            {item.frontmatter?.icon ? (
+              <IconByString iconKey={item.frontmatter?.icon} />
+            ) : null}
+            <span>{item.getDisplayName()}</span>
+          </a>
         </li>
       ))}
     </>

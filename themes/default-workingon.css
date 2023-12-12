@@ -126,6 +126,9 @@ html, body {
 .tree button span, .tree a span {
     flex-grow: 1;
 }
+.tree button svg:first-child, .tree a svg:first-child {
+    margin-right: .5rem;
+}
 .tree button:hover, .tree a:hover, .tree li.active a, .tree li.active button {
     background-color: var(--bg-highlighted);
 }
