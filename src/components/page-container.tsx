@@ -24,6 +24,11 @@ export const PageContainer: FC<
           href={`${base.config.relativeUrl ?? ""}/content.css`}
         />
         <title>{doc.getDisplayName()}</title>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.relativeUrl = "${base.config.relativeUrl ?? ""}"`,
+          }}
+        />
       </head>
       <body>
         <div id="main">
@@ -42,7 +47,7 @@ export const PageContainer: FC<
               </button>
             </header>
             <div className="search-container">
-              <button className="search">
+              <button className="search-button">
                 <HiSearch />
                 <span className="text">Search...</span>
                 <span className="kbd">Ctrl + K</span>
@@ -57,6 +62,10 @@ export const PageContainer: FC<
             </div>
           </div>
         </div>
+        <dialog id="search-dialog">
+          <input id="search-input" type="text" placeholder="Search..." />
+          <div id="search-results" />
+        </dialog>
         <script src={`${base.config.relativeUrl ?? ""}/client.js`} />
       </body>
     </html>
