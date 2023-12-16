@@ -6,7 +6,8 @@
     "moduleResolution": "classic",
     "target": "ES5",
     "lib": ["ES2015", "DOM"],
-    "outDir": "./dist-client"
+    "outDir": "./dist-client",
+    "declaration": false
   },
   "include": [
     "src/client"

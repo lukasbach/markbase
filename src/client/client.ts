@@ -91,20 +91,22 @@ fetch((window as any).relativeUrl + "/search.json")
     .then(async (res) => res.json())
     .then((docs) => {
         allDocs = docs;
+        typeIntoSearch({ key: "" } as KeyboardEvent);
     });
 
 const openSearch = () => {
     searchDialog?.showModal();
+    if (searchInput) {
+        searchInput.value = "";
+        searchInput?.focus();
+    }
 }
 const typeIntoSearch = (e: KeyboardEvent) => {
     setTimeout(() => {
         const searchResults = document.getElementsByClassName("search-result");
         if (e.key === "Escape") {
             searchDialog?.close();
-            if (searchInput) {
-                searchInput.blur();
-                searchInput.value = "";
-            }
+            searchInput?.blur();
         }
         if (e.key === "Enter") {
             const el = searchResults?.[focusedIndex];
@@ -138,8 +140,8 @@ const typeIntoSearch = (e: KeyboardEvent) => {
             return;
         }
 
-        const value = (e.target as HTMLInputElement).value;
-        const matches = allDocs.filter((doc) => doc.title.toLowerCase().includes(value.toLowerCase()));
+        const value = searchInput?.value;
+        const matches = allDocs.filter((doc) => doc.title.toLowerCase().includes(value.toLowerCase())).slice(0, 20);
         document.getElementById("search-results")?.replaceChildren(...matches.map((match, i) => {
             const comp = document.createElement("button");
             comp.innerText = match.title;

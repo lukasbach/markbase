@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import { DocumentBase } from "../core/document-base";
 import { DocumentFile } from "../core/document-file";
-import { Tree } from "./tree";
 import { PageContainer } from "./page-container";
 import { nestifyTocs } from "../core/utils";
 import { TocTree } from "./toc-tree";
