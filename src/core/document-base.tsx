@@ -120,6 +120,9 @@ export class DocumentBase {
       path.join(__dirname, "../themes/content.css"),
       path.join(outPath, "content.css")
     );
+
+    await this.buildSearchIndex(outPath);
+    await this.buildSitemap(outPath);
   }
 
   public logStats() {
@@ -146,5 +149,28 @@ export class DocumentBase {
       this.stats.size += doc.fileSize;
       this.stats.words += doc.rawMarkdown.split(/\s+/).length;
     }
+  }
+
+  private async buildSearchIndex(outPath: string) {
+    const items = this.documents.map((doc) => ({
+      title: doc.getDisplayName(),
+      path: doc.getSlug(),
+    }));
+    await fs.writeJson(path.join(outPath, "search.json"), items);
+  }
+
+  private async buildSitemap(outPath: string) {
+    let content = "";
+    for (const doc of this.documents) {
+      content += `<url>`;
+      content += `<loc>${doc.getSlug()}</loc>`;
+      if (doc.lastEdit) {
+        content += `<lastmod>${doc.lastEdit.toISOString()}</lastmod>`;
+      }
+      content += `<changefreq>weekly</changefreq>`;
+      content += `</url>`;
+    }
+    content = `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${content}</urlset>`;
+    await fs.writeFile(path.join(outPath, "sitemap.xml"), content);
   }
 }

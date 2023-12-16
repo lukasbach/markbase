@@ -11,11 +11,13 @@
 - https://devtools.nuxt.com/guide/getting-started
 - https://nuxt.studio/docs/teams/personal
 - https://linear.app/docs/select-issues
+- https://reflect.app/
 
 
 ## Blog page design
 - https://content-wind.nuxt.space/
 - https://alpine.nuxt.space/
+- https://vercel.com/blog/how-plex-6x-their-impressions-deploying-next-js-on-vercel
 
 [test](./test.md)
 [[test]]

@@ -1,4 +1,6 @@
 import { glob, GlobOptions } from "glob";
+import { exec } from "child_process";
+import { Readable } from "stream";
 import { TocEntry } from "./types";
 
 export const globAll = async (patterns: string[], options: GlobOptions) => {
@@ -23,4 +25,24 @@ export const nestifyTocs = (tocs: TocEntry[]) => {
     stack.push(toc);
   });
   return root;
+};
+
+export const tryToGetLastEditDate = async (file: string) => {
+  try {
+    let stdout = "";
+    const result = await exec(
+      `git log -1 --pretty="format:%ci" --format=%cI ${file}`
+    );
+    result.stdout?.on("data", (data) => {
+      stdout += data;
+    });
+    await new Promise((resolve) => {
+      result.stdout?.on("close", resolve);
+    });
+    const date = new Date(stdout.trim());
+    date.toISOString();
+    return Number.isNaN(date.getTime()) ? undefined : date;
+  } catch {
+    return undefined;
+  }
 };
