@@ -2,6 +2,23 @@ import path from "path";
 import * as fs from "fs-extra";
 import { renderToString } from "react-dom/server";
 import React from "react";
+import {
+  HiOutlineBars3BottomLeft,
+  HiOutlineBolt,
+  HiOutlineBugAnt,
+  HiOutlineCheckCircle,
+  HiOutlineCubeTransparent,
+  HiOutlineDocumentText,
+  HiOutlineExclamationCircle,
+  HiOutlineExclamationTriangle,
+  HiOutlineFire,
+  HiOutlineInformationCircle,
+  HiOutlineLightBulb,
+  HiOutlineMegaphone,
+  HiOutlinePencil,
+  HiOutlineQuestionMarkCircle,
+  HiOutlineXMark,
+} from "react-icons/hi2";
 import { DocumentFile } from "./document-file";
 import { BaseStats, DocumentBaseConfiguration } from "./types";
 import { globAll } from "./utils";
@@ -123,6 +140,7 @@ export class DocumentBase {
 
     await this.buildSearchIndex(outPath);
     await this.buildSitemap(outPath);
+    await this.buildAdmonitionsIcons(outPath);
   }
 
   public logStats() {
@@ -172,5 +190,34 @@ export class DocumentBase {
     }
     content = `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${content}</urlset>`;
     await fs.writeFile(path.join(outPath, "sitemap.xml"), content);
+  }
+
+  private async buildAdmonitionsIcons(outPath: string) {
+    const map = {
+      abstract: [<HiOutlineDocumentText />, "indigo"],
+      attention: [<HiOutlineExclamationCircle />, "orange"],
+      bug: [<HiOutlineBugAnt />, "red"],
+      caution: [<HiOutlineFire />, "red"],
+      danger: [<HiOutlineBolt />, "vermilion"],
+      error: [<HiOutlineExclamationCircle />, "red"],
+      example: [<HiOutlineCubeTransparent />, "indigo"],
+      failure: [<HiOutlineXMark />, "red"],
+      hint: [<HiOutlineLightBulb />, "lime"],
+      info: [<HiOutlineInformationCircle />, "blue"],
+      important: [<HiOutlineInformationCircle />, "blue"],
+      note: [<HiOutlinePencil />, "indigo"],
+      question: [<HiOutlineQuestionMarkCircle />, "blue"],
+      quote: [<HiOutlineBars3BottomLeft />, "blue"],
+      success: [<HiOutlineCheckCircle />, "green"],
+      tip: [<HiOutlineMegaphone />, "turquoise"],
+      warning: [<HiOutlineExclamationTriangle />, "orange"],
+    } as const;
+    let styles = "";
+    for (const [key, value] of Object.entries(map)) {
+      const icon = renderToString(value[0]);
+      styles += `.admonition-${key},.markdown-alert-${key}{--icon:url('data:image/svg+xml;charset=utf-8,${icon}');`;
+      styles += `--_fg:var(--${value[1]}-fg);--_bg:var(--${value[1]}-bg);--_border:var(--${value[1]}-border);}`;
+    }
+    await fs.writeFile(path.join(outPath, "admonition-icons.css"), styles);
   }
 }
