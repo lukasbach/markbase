@@ -22,6 +22,9 @@ html, body {
     --primary: #307ee5;
     --sidebar-margin: 1rem;
     --border: rgba(255, 255, 255, 0.1);
+    --mobile-header-height: 0;
+    --left-width: 240px;
+    --right-width: 240px;
 
     /* https://blueprintjs.com/docs/#core/colors
        topmost with -22 is bg, top-most is border, bottom-most is fg */
@@ -72,9 +75,60 @@ html, body {
     --lime-fg: var(--lime-border);
 }
 
+.mobile-header {
+    display: none;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--mobile-header-height);
+}
+@media (max-width: 768px) {
+    :root {
+        --mobile-header-height: 3rem;
+        --left-width: 80vw;
+        --left-width: clamp(240px, 80vw, 400px);
+        --right-width: 80vw;
+        --right-width: clamp(240px, 80vw, 400px);
+    }
+    .mobile-header {
+        display: block;
+    }
+    .left, .right-inner {
+        transition: transform .15s ease;
+    }
+    .left {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 99;
+    }
+    .content {
+        overflow-x: clip !important;
+        position: relative;
+    }
+    body:not(.left-open) .left {
+        transform: translateX(-100%);
+    }
+    .right {
+        position: absolute !important;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        z-index: 99;
+    }
+    body:not(.right-open) .right-inner, body:not(.right-open) .right {
+        transform: translateX(100%);
+    }
+    .content {
+        display: block !important;
+    }
+}
+
 #main {
     display: flex;
-    height: 100%;
+    height: calc(100% - var(--mobile-header-height));
     background-color: var(--bg);
     color: var(--fg);
 }
@@ -84,8 +138,15 @@ html, body {
     overflow: visible;
 }
 
-.left, .right {
-    width: 240px;
+.left {
+    width: var(--left-width);
+    min-width: var(--left-width);
+    max-width: var(--left-width);
+}
+.right {
+    width: var(--right-width);
+    min-width: var(--right-width);
+    max-width: var(--right-width);
 }
 
 .right {
@@ -93,8 +154,11 @@ html, body {
 }
 .right-inner {
     position: fixed;
-    max-height: 100vh;
+    max-height: calc(100vh - var(--mobile-header-height));
+    min-height: calc(100vh - var(--mobile-header-height));
+    width: var(--right-width);
     overflow: auto;
+    background-color: var(--bg);
 }
 
 .left {

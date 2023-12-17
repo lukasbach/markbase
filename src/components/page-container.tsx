@@ -31,6 +31,11 @@ export const PageContainer: FC<
         />
       </head>
       <body>
+        <div className="mobile-header">
+          <button id="open-left-bar">Left</button>
+          <div>Main</div>
+          <button id="open-right-bar">Right</button>
+        </div>
         <div id="main">
           <div className="left">
             <header className="page-header">

@@ -165,4 +165,29 @@ document.addEventListener("keydown", e => {
         openSearch();
         searchInput?.focus();
     }
-})
+});
+
+document.addEventListener("click", () => {
+    document.body.classList.toggle("left-open", false);
+    document.body.classList.toggle("right-open", false);
+});
+document.querySelectorAll(".close-menus").forEach(el =>
+    el.addEventListener("click", () => {
+        document.body.classList.toggle("left-open", false);
+        document.body.classList.toggle("right-open", false);
+    })
+);
+document.getElementById("open-left-bar")?.addEventListener("click", e => {
+    e.stopPropagation();
+    document.body.classList.toggle("left-open");
+});
+document.getElementById("open-right-bar")?.addEventListener("click", e => {
+    e.stopPropagation();
+    document.body.classList.toggle("right-open");
+});
+document.getElementsByClassName("left")[0]?.addEventListener("click", e => {
+    e.stopPropagation();
+});
+document.getElementsByClassName("right")[0]?.addEventListener("click", e => {
+    e.stopPropagation();
+});
