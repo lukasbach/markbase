@@ -3,23 +3,6 @@ import { parse as parseYaml } from "yaml";
 import * as fs from "fs-extra";
 import { renderToString } from "react-dom/server";
 import React from "react";
-import {
-  HiOutlineBars3BottomLeft,
-  HiOutlineBolt,
-  HiOutlineBugAnt,
-  HiOutlineCheckCircle,
-  HiOutlineCubeTransparent,
-  HiOutlineDocumentText,
-  HiOutlineExclamationCircle,
-  HiOutlineExclamationTriangle,
-  HiOutlineFire,
-  HiOutlineInformationCircle,
-  HiOutlineLightBulb,
-  HiOutlineMegaphone,
-  HiOutlinePencil,
-  HiOutlineQuestionMarkCircle,
-  HiOutlineXMark,
-} from "react-icons/hi2";
 import { DocumentFile } from "./document-file";
 import { BaseStats, DocumentBaseConfiguration } from "./types";
 import { globAll } from "./utils";
@@ -27,11 +10,17 @@ import { DocumentRenderer } from "./document-renderer";
 import { DocumentComponent } from "../components/document-component";
 import { Plugin } from "./plugin";
 import { admonitionsPlugin } from "../plugins/admonitions";
+import { sitemapPlugin } from "../plugins/sitemap";
+import { searchIndexPlugin } from "../plugins/search-index";
 
 export const DEFAULT_OUT_DIR = "out";
 
 export class DocumentBase {
-  public plugins: Plugin[] = [admonitionsPlugin];
+  public plugins: Plugin[] = [
+    admonitionsPlugin,
+    sitemapPlugin,
+    searchIndexPlugin,
+  ];
 
   public stats: BaseStats = {
     documents: 0,
@@ -173,9 +162,6 @@ export class DocumentBase {
       path.join(outPath, "content.css")
     );
 
-    await this.buildSearchIndex(outPath);
-    await this.buildSitemap(outPath);
-
     await this.reducePlugins(undefined, (_, plugin) =>
       plugin.postbuild?.(this)
     );
@@ -219,28 +205,5 @@ export class DocumentBase {
       this.stats.size += doc.fileSize;
       this.stats.words += doc.rawMarkdown.split(/\s+/).length;
     }
-  }
-
-  private async buildSearchIndex(outPath: string) {
-    const items = this.documents.map((doc) => ({
-      title: doc.getDisplayName(),
-      path: doc.getSlug(),
-    }));
-    await fs.writeJson(path.join(outPath, "search.json"), items);
-  }
-
-  private async buildSitemap(outPath: string) {
-    let content = "";
-    for (const doc of this.documents) {
-      content += `<url>`;
-      content += `<loc>${doc.getSlug()}</loc>`;
-      if (doc.lastEdit) {
-        content += `<lastmod>${doc.lastEdit.toISOString()}</lastmod>`;
-      }
-      content += `<changefreq>weekly</changefreq>`;
-      content += `</url>`;
-    }
-    content = `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${content}</urlset>`;
-    await fs.writeFile(path.join(outPath, "sitemap.xml"), content);
   }
 }
