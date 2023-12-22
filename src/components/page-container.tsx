@@ -1,6 +1,6 @@
 import React, { FC, PropsWithChildren, ReactNode } from "react";
-import { HiSearch } from "react-icons/hi";
-import { HiMoon, HiSun } from "react-icons/hi2";
+import { HiMenu, HiSearch } from "react-icons/hi";
+import { HiBars3CenterLeft, HiMoon, HiSun } from "react-icons/hi2";
 import { DocumentBase } from "../core/document-base";
 import { DocumentFile } from "../core/document-file";
 import { Tree } from "./tree";
@@ -32,9 +32,17 @@ export const PageContainer: FC<
       </head>
       <body>
         <div className="mobile-header">
-          <button id="open-left-bar">Left</button>
-          <div>Main</div>
-          <button id="open-right-bar">Right</button>
+          <button id="open-left-bar" aria-label="Open Menu">
+            <HiMenu />
+          </button>
+          <div>
+            <a href={`${base.config.relativeUrl ?? ""}/`}>
+              {base.config.title ?? "Home"}
+            </a>
+          </div>
+          <button id="open-right-bar" aria-label="Open Table of Contents">
+            <HiBars3CenterLeft />
+          </button>
         </div>
         <div id="main">
           <div className="left">

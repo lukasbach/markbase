@@ -24,7 +24,7 @@ html, body {
     --sidebar-margin: 1rem;
     --border: rgba(255, 255, 255, 0.1);
     --mobile-header-height: 0;
-    --left-width: 280px;
+    --left-width: 320px;
     --right-width: 240px;
 
     /* https://blueprintjs.com/docs/#core/colors
@@ -83,10 +83,42 @@ html, body {
     left: 0;
     right: 0;
     height: var(--mobile-header-height);
+    padding: 1rem 0.5rem;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    box-sizing: border-box;
 }
+.mobile-header > div {
+    flex-grow: 1;
+}
+.mobile-header > button {
+    border: none !important;
+    background: none;
+    font: inherit;
+    cursor: pointer;
+    color: var(--fg);
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    width: 2rem;
+    height: 2rem;
+    margin: 0 .5rem;
+}
+.mobile-header > button:hover {
+    background-color: var(--bg-highlighted);
+}
+.mobile-header a {
+    text-decoration: none;
+    border-bottom: none;
+    font-weight: 500;
+    font-size: 1.2rem;
+}
+
 @media (max-width: 1100px) {
     :root {
-        --mobile-header-height: 3rem;
+        --mobile-header-height: 4rem;
         --left-width: 80vw;
         --left-width: clamp(240px, 80vw, 400px);
         --right-width: 80vw;
@@ -97,7 +129,7 @@ html, body {
         max-height: calc(100% - var(--mobile-header-height));
     }
     .mobile-header {
-        display: block;
+        display: flex;
     }
     .left, .right-inner {
         transition: transform .15s ease;
@@ -301,11 +333,14 @@ html, body {
 
 .color-mode-switch {
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border);
     padding: .5rem .5rem;
     background-color: var(--bg-dim);
     color: var(--fg);
     cursor: pointer;
+}
+.color-mode-switch:hover {
+    background-color: var(--bg-highlighted);
 }
 .dark .color-mode-switch .sun {
     display: none;
@@ -384,16 +419,15 @@ html, body {
 .search-result {
     background-color: transparent;
     border-radius: 4px;
-    padding: .3rem .6rem;
+    padding: .5rem .6rem;
     color: var(--fg);
     width: 100%;
     align-items: center;
     cursor: pointer;
     text-align: left;
-    border: 1px solid transparent;
+    border: none;
 }
 .search-result:hover, .search-result:focus-visible, .search-result.focused {
-    border: 1px solid var(--fg-muted);
     background-color: var(--bg-highlighted);
 }
 
