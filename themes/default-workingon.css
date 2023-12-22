@@ -20,10 +20,11 @@ html, body {
     --fg: #adadad;
     --fg-muted: #919191;
     --primary: #307ee5;
+    --fg-on-primary: #ffffff;
     --sidebar-margin: 1rem;
     --border: rgba(255, 255, 255, 0.1);
     --mobile-header-height: 0;
-    --left-width: 240px;
+    --left-width: 280px;
     --right-width: 240px;
 
     /* https://blueprintjs.com/docs/#core/colors
@@ -56,10 +57,10 @@ html, body {
 
 .light {
     --bg: #ffffff;
-    --bg-dim: #f5f5f5;
+    --bg-dim: #ffffff;
     --bg-highlighted: #d9dce1;
     --fg-highlighted: #000000;
-    --fg: #232323;
+    --fg: #363636;
     --fg-muted: #4d4d4d;
     --primary: #307ee5;
     --sidebar-margin: 1rem;
@@ -90,6 +91,10 @@ html, body {
         --left-width: clamp(240px, 80vw, 400px);
         --right-width: 80vw;
         --right-width: clamp(240px, 80vw, 400px);
+    }
+    #main {
+        height: calc(100% - var(--mobile-header-height));
+        max-height: calc(100% - var(--mobile-header-height));
     }
     .mobile-header {
         display: block;
@@ -128,7 +133,7 @@ html, body {
 
 #main {
     display: flex;
-    height: calc(100% - var(--mobile-header-height));
+    height: 100%;
     background-color: var(--bg);
     color: var(--fg);
 }
@@ -164,6 +169,7 @@ html, body {
 .left {
     background-color: var(--bg-dim);
     overflow: auto;
+    height: 100vh;
     border-right: 1px solid var(--border);
 }
 
@@ -198,15 +204,15 @@ html, body {
     list-style: none;
     padding: 0;
     margin: 0 0 0 1rem;
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 1px solid var(--border);
 }
-.tree.hoist > li > ul {
+/*.tree.hoist > li > ul {
     border-left: none;
     margin-left: 0;
 }
 .tree.hoist > li > ul > li  {
     margin-left: 0;
-}
+}*/
 .tree li {
     list-style: none;
     margin-left: .2rem;
@@ -241,13 +247,19 @@ html, body {
 .tree button:hover, .tree a:hover, .tree li.active a, .tree li.active button {
     background-color: var(--bg-highlighted);
 }
+.tree li.active a, .tree li.active button {
+    background-color: var(--primary);
+    color: var(--fg-on-primary) !important;
+}
 .tree .hoisted-heading {
     color: var(--fg-highlighted);
     margin-bottom: .5rem;
-    margin-top: 1.5rem;
-    border-bottom: 1px solid var(--border) !important;
     cursor: default;
     border-radius: 0;
+    font-size: 1rem;
+}
+.tree li:not(:first-child) .hoisted-heading {
+    margin-top: 1.5rem;
 }
 
 .tree li.active a, .tree li.active button {

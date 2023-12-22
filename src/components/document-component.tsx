@@ -10,23 +10,21 @@ export const DocumentComponent: FC<{
   doc: DocumentFile;
 }> = ({ base, doc }) => {
   return (
-    <div>
-      <PageContainer
-        base={base}
-        doc={doc}
-        right={
-          <>
-            <div className="sidebar-header">On this Page</div>
-            <TocTree items={nestifyTocs(doc.renderer.generateToc())} />
-          </>
-        }
-      >
-        <div
-          dangerouslySetInnerHTML={{
-            __html: doc.renderer.renderDocument(),
-          }}
-        />
-      </PageContainer>
-    </div>
+    <PageContainer
+      base={base}
+      doc={doc}
+      right={
+        <>
+          <div className="sidebar-header">On this Page</div>
+          <TocTree items={nestifyTocs(doc.renderer.generateToc())} />
+        </>
+      }
+    >
+      <div
+        dangerouslySetInnerHTML={{
+          __html: doc.renderer.renderDocument(),
+        }}
+      />
+    </PageContainer>
   );
 };
