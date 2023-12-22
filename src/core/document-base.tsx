@@ -1,4 +1,5 @@
 import path from "path";
+import { parse as parseYaml } from "yaml";
 import * as fs from "fs-extra";
 import { renderToString } from "react-dom/server";
 import React from "react";
@@ -61,7 +62,7 @@ export class DocumentBase {
     basePath: string
   ): Promise<DocumentBaseConfiguration> {
     if (await fs.pathExists(path.join(basePath, "config.json"))) {
-      return import(`file://${path.join(basePath, "config.json")}`);
+      return fs.readJson(path.join(basePath, "config.json"));
     }
     if (await fs.pathExists(path.join(basePath, "config.js"))) {
       return (await import(`file://${path.resolve(basePath, "config.js")}`))
@@ -70,6 +71,16 @@ export class DocumentBase {
     if (await fs.pathExists(path.join(basePath, "config.mjs"))) {
       return (await import(`file://${path.resolve(basePath, "config.mjs")}`))
         .default.default;
+    }
+    if (await fs.pathExists(path.join(basePath, "config.yml"))) {
+      return parseYaml(
+        fs.readFileSync(path.join(basePath, "config.yml"), "utf-8")
+      );
+    }
+    if (await fs.pathExists(path.join(basePath, "config.yaml"))) {
+      return parseYaml(
+        fs.readFileSync(path.join(basePath, "config.yaml"), "utf-8")
+      );
     }
     return {};
   }

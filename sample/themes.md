@@ -12,12 +12,15 @@
 - https://nuxt.studio/docs/teams/personal
 - https://linear.app/docs/select-issues
 - https://reflect.app/
+- https://tx.shadcn.com/docs
 
 
 ## Blog page design
 - https://content-wind.nuxt.space/
 - https://alpine.nuxt.space/
 - https://vercel.com/blog/how-plex-6x-their-impressions-deploying-next-js-on-vercel
+- https://tx.shadcn.com/
+- https://rsms.me/rsm/
 
 [test](./test.md)
 [[test]]
