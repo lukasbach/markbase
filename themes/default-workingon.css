@@ -159,11 +159,13 @@ html, body {
 }
 .right-inner {
     position: fixed;
-    max-height: calc(100vh - var(--mobile-header-height));
-    min-height: calc(100vh - var(--mobile-header-height));
+    height: 100%;
     width: var(--right-width);
-    overflow: auto;
+    overflow: hidden;
     background-color: var(--bg);
+}
+.right-inner:hover {
+    overflow: auto;
 }
 
 .left {
