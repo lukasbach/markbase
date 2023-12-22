@@ -18,8 +18,21 @@ watchCommand.option("-p, --port <port>", "Server port", "3030");
 let lastRebuild = Date.now();
 
 watchCommand.action(async (basePath, options: BuildOptions) => {
-  const base = await DocumentBase.fromPath(basePath);
-  await base.build(options.out);
+  {
+    const base = await DocumentBase.fromPath(basePath);
+    base.setOutDir(options.out);
+    await base.build();
+
+    const server = createServer({
+      root: options.out ?? base.config.out ?? DEFAULT_OUT_DIR,
+    });
+
+    server.listen(options.port, () => {
+      console.log(`Server listening on http://localhost:${options.port}`);
+    });
+
+    base.logStats();
+  }
 
   fs.watch(basePath, async () => {
     if (Date.now() - lastRebuild < 1000) {
@@ -28,17 +41,8 @@ watchCommand.action(async (basePath, options: BuildOptions) => {
 
     lastRebuild = Date.now();
     const base = await DocumentBase.fromPath(basePath);
-    await base.build(options.out);
+    base.setOutDir(options.out);
+    await base.build();
     console.log("Rebuilt document base.");
   });
-
-  const server = createServer({
-    root: options.out ?? base.config.out ?? DEFAULT_OUT_DIR,
-  });
-
-  server.listen(options.port, () => {
-    console.log(`Server listening on http://localhost:${options.port}`);
-  });
-
-  base.logStats();
 });

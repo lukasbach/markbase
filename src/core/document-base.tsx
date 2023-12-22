@@ -25,10 +25,14 @@ import { BaseStats, DocumentBaseConfiguration } from "./types";
 import { globAll } from "./utils";
 import { DocumentRenderer } from "./document-renderer";
 import { DocumentComponent } from "../components/document-component";
+import { Plugin } from "./plugin";
+import { admonitionsPlugin } from "../plugins/admonitions";
 
 export const DEFAULT_OUT_DIR = "out";
 
 export class DocumentBase {
+  public plugins: Plugin[] = [admonitionsPlugin];
+
   public stats: BaseStats = {
     documents: 0,
     assets: 0,
@@ -56,6 +60,10 @@ export class DocumentBase {
       );
     }
     return new DocumentBase(files, config, await DocumentRenderer.create());
+  }
+
+  setOutDir(outDir?: string) {
+    this.config.out = outDir ?? this.config.out;
   }
 
   static async loadConfig(
@@ -117,7 +125,17 @@ export class DocumentBase {
     return [...subfolders];
   }
 
-  async build(outPath: string = this.config.out ?? DEFAULT_OUT_DIR) {
+  getOutDir() {
+    return this.config.out ?? DEFAULT_OUT_DIR;
+  }
+
+  async build() {
+    await this.reducePlugins(undefined, (_, plugin) => plugin.prebuild?.(this));
+    await this.reducePlugins(undefined, (_, plugin) =>
+      plugin.prepareMarked?.({ base: this, marked: this.renderer.getMarked() })
+    );
+
+    const outPath = this.getOutDir();
     await fs.ensureDir(outPath);
 
     for (const file of this.documents) {
@@ -136,14 +154,20 @@ export class DocumentBase {
     }
 
     await fs.copy(path.join(__dirname, "../dist-client"), outPath);
-    await fs.copy(
+
+    let styles = await fs.readFile(
       path.join(
         __dirname,
         "../themes",
         `${this.config.theme ?? "default"}.css`
       ),
-      path.join(outPath, "style.css")
+      "utf-8"
     );
+    styles = await this.reducePlugins(styles, async (acc, plugin) =>
+      plugin.patchCss?.({ base: this, css: acc })
+    );
+    await fs.writeFile(path.join(outPath, "style.css"), styles);
+
     await fs.copy(
       path.join(__dirname, "../themes/content.css"),
       path.join(outPath, "content.css")
@@ -151,7 +175,10 @@ export class DocumentBase {
 
     await this.buildSearchIndex(outPath);
     await this.buildSitemap(outPath);
-    await this.buildAdmonitionsIcons(outPath);
+
+    await this.reducePlugins(undefined, (_, plugin) =>
+      plugin.postbuild?.(this)
+    );
   }
 
   public logStats() {
@@ -163,6 +190,20 @@ export class DocumentBase {
         this.stats.size / 1024
       )}KB`
     );
+  }
+
+  public async reducePlugins<T>(
+    initial: T,
+    reducer: (
+      acc: T,
+      plugin: Plugin
+    ) => Promise<T | undefined | void> | undefined | void
+  ) {
+    let acc = initial;
+    for (const plugin of this.plugins) {
+      acc = (await reducer(acc, plugin)) ?? acc;
+    }
+    return acc;
   }
 
   private calculateStats() {
@@ -201,34 +242,5 @@ export class DocumentBase {
     }
     content = `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${content}</urlset>`;
     await fs.writeFile(path.join(outPath, "sitemap.xml"), content);
-  }
-
-  private async buildAdmonitionsIcons(outPath: string) {
-    const map = {
-      abstract: [<HiOutlineDocumentText />, "indigo"],
-      attention: [<HiOutlineExclamationCircle />, "orange"],
-      bug: [<HiOutlineBugAnt />, "red"],
-      caution: [<HiOutlineFire />, "red"],
-      danger: [<HiOutlineBolt />, "vermilion"],
-      error: [<HiOutlineExclamationCircle />, "red"],
-      example: [<HiOutlineCubeTransparent />, "indigo"],
-      failure: [<HiOutlineXMark />, "red"],
-      hint: [<HiOutlineLightBulb />, "lime"],
-      info: [<HiOutlineInformationCircle />, "blue"],
-      important: [<HiOutlineInformationCircle />, "blue"],
-      note: [<HiOutlinePencil />, "indigo"],
-      question: [<HiOutlineQuestionMarkCircle />, "blue"],
-      quote: [<HiOutlineBars3BottomLeft />, "blue"],
-      success: [<HiOutlineCheckCircle />, "green"],
-      tip: [<HiOutlineMegaphone />, "turquoise"],
-      warning: [<HiOutlineExclamationTriangle />, "orange"],
-    } as const;
-    let styles = "";
-    for (const [key, value] of Object.entries(map)) {
-      const icon = renderToString(value[0]);
-      styles += `.admonition-${key},.markdown-alert-${key}{--icon:url('data:image/svg+xml;charset=utf-8,${icon}');`;
-      styles += `--_fg:var(--${value[1]}-fg);--_bg:var(--${value[1]}-bg);--_border:var(--${value[1]}-border);}`;
-    }
-    await fs.writeFile(path.join(outPath, "admonition-icons.css"), styles);
   }
 }

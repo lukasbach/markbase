@@ -18,8 +18,6 @@ export class DocumentRenderer {
     });
 
     marked.use(
-      (await import("marked-admonition-extension")).default as any,
-      (await import("marked-alert")).default() as any,
       (await import("marked-base-url")).baseUrl as any,
       (await import("marked-code-format")).default as any,
       // @ts-ignore
@@ -74,5 +72,9 @@ export class DocumentRenderer {
     this.toc = [];
     this.marked.parse(this.marked.parse(doc.rawMarkdown) as string);
     return this.toc;
+  }
+
+  getMarked() {
+    return this.marked;
   }
 }
