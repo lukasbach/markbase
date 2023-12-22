@@ -16,6 +16,7 @@ import { admonitionsPlugin } from "../plugins/admonitions";
 import { sitemapPlugin } from "../plugins/sitemap";
 import { searchIndexPlugin } from "../plugins/search-index";
 import { patchHrefsPlugin } from "../plugins/patch-hrefs";
+import { indexFilesPlugin } from "../plugins/index-files";
 
 export const DEFAULT_OUT_DIR = "out";
 
@@ -25,6 +26,7 @@ export class DocumentBase {
     sitemapPlugin,
     searchIndexPlugin,
     patchHrefsPlugin,
+    indexFilesPlugin,
   ];
 
   public stats: BaseStats = {
@@ -62,7 +64,6 @@ export class DocumentBase {
     )) {
       const folder = path.dirname(folderConfig);
       const config = await getConfigFileAt(path.join(basePath, folderConfig));
-      console.log("loading folder config", folderConfig, config);
       folderConfigs[path.sep + folder] = config;
     }
 
@@ -89,6 +90,10 @@ export class DocumentBase {
     basePath: string
   ): Promise<DocumentBaseConfiguration> {
     return getConfigFileAt(path.join(basePath, "config"));
+  }
+
+  getFolderConfig(folder: string) {
+    return this.folderConfigs[folder];
   }
 
   getFolderFiles(folder: string) {
@@ -124,12 +129,13 @@ export class DocumentBase {
   }
 
   getFolderItems(folder: string) {
-    const folderConfig = this.folderConfigs[folder];
+    const folderConfig = this.getFolderConfig(folder);
     const files = this.getFolderFiles(folder).map((doc) => doc.asFolderItem());
     const subfolders = this.getFolderSubfolders(folder).map<FolderItem>(
       (subFolder) => {
-        const subfolderConfig =
-          this.folderConfigs[path.join(folder, subFolder)];
+        const subfolderConfig = this.getFolderConfig(
+          path.join(folder, subFolder)
+        );
         return {
           type: "folder",
           title:
@@ -169,6 +175,18 @@ export class DocumentBase {
 
       return a.title.localeCompare(b.title);
     });
+  }
+
+  getAllFolders() {
+    const recurse = (folder: string): string[] => {
+      const items = this.getFolderSubfolders(folder);
+      return [
+        folder,
+        ...items.flatMap((item) => recurse(path.join(folder, item))),
+      ];
+    };
+
+    return recurse(path.sep);
   }
 
   getOutDir() {
