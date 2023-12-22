@@ -1,1 +1,2 @@
 rootDocument: /deeply/abc/def/ghi
+hoistHeadings: true

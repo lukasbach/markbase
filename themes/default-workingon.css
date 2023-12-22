@@ -200,11 +200,18 @@ html, body {
     margin: 0 0 0 1rem;
     border-left: 1px solid rgba(255, 255, 255, 0.1);
 }
+.tree.hoist > li > ul {
+    border-left: none;
+    margin-left: 0;
+}
+.tree.hoist > li > ul > li  {
+    margin-left: 0;
+}
 .tree li {
     list-style: none;
     margin-left: .2rem;
 }
-.tree button, .tree a {
+.tree button, .tree a, .tree .hoisted-heading {
     display: flex;
     align-items: center;
     width: 100%;
@@ -225,15 +232,24 @@ html, body {
     font-size: .9rem;
     color: var(--fg);
 }
-.tree button span, .tree a span {
+.tree button span, .tree a span, .tree .hoisted-heading span {
     flex-grow: 1;
 }
-.tree button svg:first-child, .tree a svg:first-child {
+.tree button svg:first-child, .tree a svg:first-child, .tree .hoisted-heading svg:first-child {
     margin-right: .5rem;
 }
 .tree button:hover, .tree a:hover, .tree li.active a, .tree li.active button {
     background-color: var(--bg-highlighted);
 }
+.tree .hoisted-heading {
+    color: var(--fg-highlighted);
+    margin-bottom: .5rem;
+    margin-top: 1.5rem;
+    border-bottom: 1px solid var(--border) !important;
+    cursor: default;
+    border-radius: 0;
+}
+
 .tree li.active a, .tree li.active button {
     color: var(--fg-highlighted);
 }

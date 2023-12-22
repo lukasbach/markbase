@@ -9,8 +9,13 @@ export const Tree: FC<{
   doc: DocumentFile;
 }> = ({ base, doc }) => {
   return (
-    <ul className="tree">
-      <SubTree doc={doc} base={base} treePath={path.sep} />
+    <ul className={`tree ${base.config.hoistHeadings ? "hoist" : ""}`}>
+      <SubTree
+        doc={doc}
+        base={base}
+        treePath={path.sep}
+        hoist={base.config.hoistHeadings ?? false}
+      />
     </ul>
   );
 };

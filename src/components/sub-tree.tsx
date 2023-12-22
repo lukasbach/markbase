@@ -9,7 +9,8 @@ export const SubTree: FC<{
   base: DocumentBase;
   doc: DocumentFile;
   treePath: string;
-}> = ({ base, doc, treePath }) => {
+  hoist: boolean;
+}> = ({ base, doc, treePath, hoist }) => {
   return (
     <>
       {base
@@ -17,17 +18,23 @@ export const SubTree: FC<{
         .filter((item) => item.slug !== "/" && item.slug !== "/index")
         .map((item) => {
           if (item.type === "folder") {
+            const Comp = hoist ? "div" : "button";
             return (
               <li data-folder-item={item.slug} key={item.slug}>
-                <button>
+                <Comp className={hoist ? "hoisted-heading" : ""}>
                   {item.frontmatter?.icon ? (
                     <IconByString iconKey={item.frontmatter?.icon} />
                   ) : null}
                   <span>{item.title}</span>
-                  <HiOutlineChevronRight />
-                </button>
+                  {!hoist && <HiOutlineChevronRight />}
+                </Comp>
                 <ul>
-                  <SubTree base={base} doc={doc} treePath={item.slug} />
+                  <SubTree
+                    base={base}
+                    doc={doc}
+                    treePath={item.slug}
+                    hoist={false}
+                  />
                 </ul>
               </li>
             );

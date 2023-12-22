@@ -34,6 +34,10 @@ try {
 }
 
 document.querySelectorAll("[data-folder-item]").forEach((item) => {
+  if (item.parentElement?.classList.contains("hoist")) {
+    return;
+  }
+
   const folder = item.getAttribute("data-folder-item");
   const isOpen = folder && openFolders.includes(folder);
   item.classList.toggle("open", !!isOpen);

@@ -8,6 +8,7 @@ export type DocumentBaseConfiguration = {
   relativeUrl?: string;
   theme?: string;
   rootDocument?: string;
+  hoistHeadings?: boolean;
 };
 
 export type TocEntry = {
