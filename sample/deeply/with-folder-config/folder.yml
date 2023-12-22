@@ -1,0 +1,8 @@
+title: With Folder Config!!
+order: 0
+itemOrder:
+  - 2
+  - 1
+  - bottom-folder
+frontmatter:
+  icon: HiAnnotation

@@ -1,6 +1,9 @@
 import { glob, GlobOptions } from "glob";
 import { exec } from "child_process";
 import { Readable } from "stream";
+import * as fs from "fs-extra";
+import path from "path";
+import { parse as parseYaml } from "yaml";
 import { TocEntry } from "./types";
 
 export const globAll = async (patterns: string[], options: GlobOptions) => {
@@ -45,4 +48,27 @@ export const tryToGetLastEditDate = async (file: string) => {
   } catch {
     return undefined;
   }
+};
+
+export const getConfigFileAt = async (configFile: string) => {
+  const file = path.join(
+    path.dirname(configFile),
+    path.basename(configFile, path.extname(configFile))
+  );
+  if (await fs.pathExists(`${file}.json`)) {
+    return fs.readJson(`${file}.json`);
+  }
+  if (await fs.pathExists(`${file}.js`)) {
+    return (await import(`${file}.js`)).default.default;
+  }
+  if (await fs.pathExists(`${file}.mjs`)) {
+    return (await import(`file://${file}.mjs`)).default.default;
+  }
+  if (await fs.pathExists(`${file}.yml`)) {
+    return parseYaml(fs.readFileSync(`${file}.yml`, "utf-8"));
+  }
+  if (await fs.pathExists(`${file}.yaml`)) {
+    return parseYaml(fs.readFileSync(`${file}.yaml`, "utf-8"));
+  }
+  return {};
 };

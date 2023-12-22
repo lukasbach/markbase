@@ -3,6 +3,7 @@ import grayMatter from "gray-matter";
 import path from "path";
 import { tryToGetLastEditDate } from "./utils";
 import { DocumentRenderer } from "./document-renderer";
+import { FolderItem } from "./types";
 
 export class DocumentFile {
   public readonly rawMarkdown: string;
@@ -46,15 +47,27 @@ export class DocumentFile {
   }
 
   getDisplayName() {
-    return (
-      this.frontmatter.title ??
-      path.basename(this.relativePath, path.extname(this.relativePath))
-    );
+    return this.frontmatter.title ?? this.getFileName();
   }
 
   getSlug() {
     return this.relativePath
       .replaceAll("\\", "/")
       .slice(0, -path.extname(this.relativePath).length);
+  }
+
+  asFolderItem(): FolderItem {
+    return {
+      type: "document",
+      doc: this,
+      title: this.getDisplayName(),
+      slug: this.getSlug(),
+      frontmatter: this.frontmatter,
+      fileName: this.getFileName(),
+    };
+  }
+
+  getFileName() {
+    return path.basename(this.relativePath, path.extname(this.relativePath));
   }
 }

@@ -1,11 +1,15 @@
 import path from "path";
-import { parse as parseYaml } from "yaml";
 import * as fs from "fs-extra";
 import { renderToString } from "react-dom/server";
 import React from "react";
 import { DocumentFile } from "./document-file";
-import { BaseStats, DocumentBaseConfiguration } from "./types";
-import { globAll } from "./utils";
+import {
+  BaseStats,
+  DocumentBaseConfiguration,
+  FolderConfig,
+  FolderItem,
+} from "./types";
+import { getConfigFileAt, globAll } from "./utils";
 import { DocumentComponent } from "../components/document-component";
 import { Plugin } from "./plugin";
 import { admonitionsPlugin } from "../plugins/admonitions";
@@ -33,14 +37,35 @@ export class DocumentBase {
 
   private constructor(
     public readonly documents: DocumentFile[],
-    public readonly config: DocumentBaseConfiguration
+    public readonly config: DocumentBaseConfiguration,
+    public readonly folderConfigs: Record<string, FolderConfig>
   ) {
     this.calculateStats();
   }
 
   static async fromPath(basePath: string) {
     const config = await DocumentBase.loadConfig(basePath);
+    const folderConfigs: Record<string, FolderConfig> = {};
     const files: DocumentFile[] = [];
+
+    for (const folderConfig of await globAll(
+      [
+        "**/folder.json",
+        "**/folder.yml",
+        "**/folder.yaml",
+        "**/folder.js",
+        "**/folder.mjs",
+      ],
+      {
+        cwd: basePath,
+      }
+    )) {
+      const folder = path.dirname(folderConfig);
+      const config = await getConfigFileAt(path.join(basePath, folderConfig));
+      console.log("loading folder config", folderConfig, config);
+      folderConfigs[path.sep + folder] = config;
+    }
+
     for (const file of await globAll(config?.documents ?? ["**/*.md"], {
       cwd: basePath,
     })) {
@@ -48,7 +73,8 @@ export class DocumentBase {
         await DocumentFile.fromPath(path.join(basePath, file), basePath)
       );
     }
-    return new DocumentBase(files, config);
+
+    return new DocumentBase(files, config, folderConfigs);
   }
 
   setOutDir(outDir?: string) {
@@ -62,31 +88,10 @@ export class DocumentBase {
   static async loadConfig(
     basePath: string
   ): Promise<DocumentBaseConfiguration> {
-    if (await fs.pathExists(path.join(basePath, "config.json"))) {
-      return fs.readJson(path.join(basePath, "config.json"));
-    }
-    if (await fs.pathExists(path.join(basePath, "config.js"))) {
-      return (await import(`file://${path.resolve(basePath, "config.js")}`))
-        .default.default;
-    }
-    if (await fs.pathExists(path.join(basePath, "config.mjs"))) {
-      return (await import(`file://${path.resolve(basePath, "config.mjs")}`))
-        .default.default;
-    }
-    if (await fs.pathExists(path.join(basePath, "config.yml"))) {
-      return parseYaml(
-        fs.readFileSync(path.join(basePath, "config.yml"), "utf-8")
-      );
-    }
-    if (await fs.pathExists(path.join(basePath, "config.yaml"))) {
-      return parseYaml(
-        fs.readFileSync(path.join(basePath, "config.yaml"), "utf-8")
-      );
-    }
-    return {};
+    return getConfigFileAt(path.join(basePath, "config"));
   }
 
-  getFolderItems(folder: string) {
+  getFolderFiles(folder: string) {
     return this.documents
       .filter((d) => d.getFolder() === path.normalize(`${folder}/`))
       .sort((a, b) => {
@@ -116,6 +121,54 @@ export class DocumentBase {
         .filter((d) => d !== "")
     );
     return [...subfolders];
+  }
+
+  getFolderItems(folder: string) {
+    const folderConfig = this.folderConfigs[folder];
+    const files = this.getFolderFiles(folder).map((doc) => doc.asFolderItem());
+    const subfolders = this.getFolderSubfolders(folder).map<FolderItem>(
+      (subFolder) => {
+        const subfolderConfig =
+          this.folderConfigs[path.join(folder, subFolder)];
+        return {
+          type: "folder",
+          title:
+            subfolderConfig?.title ??
+            subfolderConfig?.frontmatter?.title ??
+            subFolder,
+          slug: path.join(folder, subFolder),
+          frontmatter: subfolderConfig?.frontmatter,
+          folderConfig: subfolderConfig,
+          fileName: subFolder,
+        };
+      }
+    );
+
+    return [...subfolders, ...files].sort((a, b) => {
+      if (folderConfig?.itemOrder) {
+        const itemOrder = folderConfig.itemOrder.map((i) => `${i}`);
+        return (
+          itemOrder.indexOf(`${a.fileName}`) -
+          itemOrder.indexOf(`${b.fileName}`)
+        );
+      }
+
+      if (
+        a.frontmatter?.order !== undefined ||
+        b.frontmatter?.order !== undefined
+      ) {
+        return (a.frontmatter?.order ?? 0) - (b.frontmatter?.order ?? 0);
+      }
+
+      if (a.type === "folder" && b.type !== "folder") {
+        return -1;
+      }
+      if (a.type !== "folder" && b.type === "folder") {
+        return 1;
+      }
+
+      return a.title.localeCompare(b.title);
+    });
   }
 
   getOutDir() {

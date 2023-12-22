@@ -1,3 +1,5 @@
+import { DocumentFile } from "./document-file";
+
 export type DocumentBaseConfiguration = {
   title?: string;
   documents?: string[];
@@ -22,3 +24,26 @@ export type BaseStats = {
   words: number;
   characters: number;
 };
+
+export type FolderConfig = {
+  title?: string;
+  itemOrder?: string[];
+  order?: number;
+  frontmatter?: any;
+};
+
+export type FolderItem = {
+  title: string;
+  slug: string;
+  frontmatter?: any;
+  fileName: string;
+} & (
+  | {
+      type: "folder";
+      folderConfig?: FolderConfig;
+    }
+  | {
+      type: "document";
+      doc: DocumentFile;
+    }
+);

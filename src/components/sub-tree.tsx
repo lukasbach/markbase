@@ -12,37 +12,41 @@ export const SubTree: FC<{
 }> = ({ base, doc, treePath }) => {
   return (
     <>
-      {base.getFolderSubfolders(treePath).map((item) => {
-        const itemSlug = path.join(treePath, item);
-        return (
-          <li data-folder-item={itemSlug} key={itemSlug}>
-            <button>
-              <span>{item}</span>
-              <HiOutlineChevronRight />
-            </button>
-            <ul>
-              <SubTree base={base} doc={doc} treePath={itemSlug} />
-            </ul>
-          </li>
-        );
-      })}
       {base
         .getFolderItems(treePath)
-        .filter((item) => item.getSlug() !== "/" && item.getSlug() !== "/index")
-        .map((item) => (
-          <li
-            data-file-item={item.getSlug()}
-            className={item.getSlug() === doc.getSlug() ? "active" : ""}
-            key={item.getSlug()}
-          >
-            <a href={item.getSlug()}>
-              {item.frontmatter?.icon ? (
-                <IconByString iconKey={item.frontmatter?.icon} />
-              ) : null}
-              <span>{item.getDisplayName()}</span>
-            </a>
-          </li>
-        ))}
+        .filter((item) => item.slug !== "/" && item.slug !== "/index")
+        .map((item) => {
+          if (item.type === "folder") {
+            return (
+              <li data-folder-item={item.slug} key={item.slug}>
+                <button>
+                  {item.frontmatter?.icon ? (
+                    <IconByString iconKey={item.frontmatter?.icon} />
+                  ) : null}
+                  <span>{item.title}</span>
+                  <HiOutlineChevronRight />
+                </button>
+                <ul>
+                  <SubTree base={base} doc={doc} treePath={item.slug} />
+                </ul>
+              </li>
+            );
+          }
+          return (
+            <li
+              data-file-item={item.slug}
+              className={item.slug === doc.getSlug() ? "active" : ""}
+              key={item.slug}
+            >
+              <a href={item.slug}>
+                {item.frontmatter?.icon ? (
+                  <IconByString iconKey={item.frontmatter?.icon} />
+                ) : null}
+                <span>{item.title}</span>
+              </a>
+            </li>
+          );
+        })}
     </>
   );
 };
