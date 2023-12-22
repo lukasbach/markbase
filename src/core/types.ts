@@ -5,6 +5,7 @@ export type DocumentBaseConfiguration = {
   out?: string;
   relativeUrl?: string;
   theme?: string;
+  rootDocument?: string;
 };
 
 export type TocEntry = {

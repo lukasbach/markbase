@@ -26,20 +26,23 @@ export const SubTree: FC<{
           </li>
         );
       })}
-      {base.getFolderItems(treePath).map((item) => (
-        <li
-          data-file-item={item.getSlug()}
-          className={item.getSlug() === doc.getSlug() ? "active" : ""}
-          key={item.getSlug()}
-        >
-          <a href={item.getSlug()}>
-            {item.frontmatter?.icon ? (
-              <IconByString iconKey={item.frontmatter?.icon} />
-            ) : null}
-            <span>{item.getDisplayName()}</span>
-          </a>
-        </li>
-      ))}
+      {base
+        .getFolderItems(treePath)
+        .filter((item) => item.getSlug() !== "/" && item.getSlug() !== "/index")
+        .map((item) => (
+          <li
+            data-file-item={item.getSlug()}
+            className={item.getSlug() === doc.getSlug() ? "active" : ""}
+            key={item.getSlug()}
+          >
+            <a href={item.getSlug()}>
+              {item.frontmatter?.icon ? (
+                <IconByString iconKey={item.frontmatter?.icon} />
+              ) : null}
+              <span>{item.getDisplayName()}</span>
+            </a>
+          </li>
+        ))}
     </>
   );
 };

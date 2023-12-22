@@ -6,12 +6,12 @@ import React from "react";
 import { DocumentFile } from "./document-file";
 import { BaseStats, DocumentBaseConfiguration } from "./types";
 import { globAll } from "./utils";
-import { DocumentRenderer } from "./document-renderer";
 import { DocumentComponent } from "../components/document-component";
 import { Plugin } from "./plugin";
 import { admonitionsPlugin } from "../plugins/admonitions";
 import { sitemapPlugin } from "../plugins/sitemap";
 import { searchIndexPlugin } from "../plugins/search-index";
+import { patchHrefsPlugin } from "../plugins/patch-hrefs";
 
 export const DEFAULT_OUT_DIR = "out";
 
@@ -20,6 +20,7 @@ export class DocumentBase {
     admonitionsPlugin,
     sitemapPlugin,
     searchIndexPlugin,
+    patchHrefsPlugin,
   ];
 
   public stats: BaseStats = {
@@ -30,10 +31,9 @@ export class DocumentBase {
     words: 0,
   };
 
-  constructor(
+  private constructor(
     public readonly documents: DocumentFile[],
-    public readonly config: DocumentBaseConfiguration,
-    public readonly renderer: DocumentRenderer
+    public readonly config: DocumentBaseConfiguration
   ) {
     this.calculateStats();
   }
@@ -48,11 +48,15 @@ export class DocumentBase {
         await DocumentFile.fromPath(path.join(basePath, file), basePath)
       );
     }
-    return new DocumentBase(files, config, await DocumentRenderer.create());
+    return new DocumentBase(files, config);
   }
 
   setOutDir(outDir?: string) {
     this.config.out = outDir ?? this.config.out;
+  }
+
+  isDocumentRoot(doc: DocumentFile) {
+    return (this.config.rootDocument ?? "/index") === doc.getSlug();
   }
 
   static async loadConfig(
@@ -120,9 +124,16 @@ export class DocumentBase {
 
   async build() {
     await this.reducePlugins(undefined, (_, plugin) => plugin.prebuild?.(this));
-    await this.reducePlugins(undefined, (_, plugin) =>
-      plugin.prepareMarked?.({ base: this, marked: this.renderer.getMarked() })
-    );
+
+    for (const doc of this.documents) {
+      await this.reducePlugins(undefined, (_, plugin) =>
+        plugin.prepareMarked?.({
+          base: this,
+          doc,
+          marked: doc.renderer.getMarked(),
+        })
+      );
+    }
 
     const outPath = this.getOutDir();
     await fs.ensureDir(outPath);

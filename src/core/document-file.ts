@@ -2,6 +2,7 @@ import * as fs from "fs-extra";
 import grayMatter from "gray-matter";
 import path from "path";
 import { tryToGetLastEditDate } from "./utils";
+import { DocumentRenderer } from "./document-renderer";
 
 export class DocumentFile {
   public readonly rawMarkdown: string;
@@ -10,12 +11,13 @@ export class DocumentFile {
 
   public readonly excerp: string;
 
-  constructor(
+  private constructor(
     public readonly fullPath: string,
     public readonly relativePath: string,
     public readonly contents: string,
     public readonly fileSize: number,
-    public readonly lastEdit?: Date
+    public readonly lastEdit: Date | undefined,
+    public readonly renderer: DocumentRenderer
   ) {
     const { data, excerpt, content } = grayMatter(contents, { excerpt: true });
     this.frontmatter = data;
@@ -24,13 +26,16 @@ export class DocumentFile {
   }
 
   static async fromPath(filePath: string, rootPath: string) {
-    return new DocumentFile(
+    const doc = new DocumentFile(
       filePath,
       `${path.sep}${path.relative(rootPath, filePath)}`,
       await fs.readFile(filePath, "utf-8"),
       await fs.stat(filePath).then((stats) => stats.size),
-      await tryToGetLastEditDate(filePath)
+      await tryToGetLastEditDate(filePath),
+      await DocumentRenderer.create()
     );
+    doc.renderer.setDocument(doc);
+    return doc;
   }
 
   getFolder() {

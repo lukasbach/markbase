@@ -17,13 +17,13 @@ export const DocumentComponent: FC<{
         right={
           <>
             <div className="sidebar-header">On this Page</div>
-            <TocTree items={nestifyTocs(base.renderer.generateToc(doc))} />
+            <TocTree items={nestifyTocs(doc.renderer.generateToc())} />
           </>
         }
       >
         <div
           dangerouslySetInnerHTML={{
-            __html: base.renderer.renderDocument(doc),
+            __html: doc.renderer.renderDocument(),
           }}
         />
       </PageContainer>

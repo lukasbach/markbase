@@ -8,6 +8,8 @@ import { TocEntry } from "./types";
 export class DocumentRenderer {
   private toc: TocEntry[] = [];
 
+  private doc!: DocumentFile;
+
   constructor(private marked: Marked) {
     this.setupCustomExtensions();
   }
@@ -18,7 +20,6 @@ export class DocumentRenderer {
     });
 
     marked.use(
-      (await import("marked-base-url")).baseUrl as any,
       (await import("marked-code-format")).default as any,
       // @ts-ignore
       (await import("marked-custom-heading-id")).default as any,
@@ -32,22 +33,6 @@ export class DocumentRenderer {
   private setupCustomExtensions() {
     this.marked.use({
       renderer: {
-        link(
-          href: string,
-          title: string | null | undefined,
-          text: string
-        ): string {
-          const isLocal = href.startsWith("./") && href.endsWith(".md");
-          const patchedHref = isLocal
-            ? `../${href.replace(/\.md$/, "")}`
-            : href;
-          const targetData =
-            isLocal || href.startsWith("#")
-              ? ""
-              : 'target="_blank" rel="noopener"';
-          return `<a href="${patchedHref}" ${targetData} title="${title}">${text}</a>`;
-        },
-
         heading: (text, level) => {
           const escapedText = text.toLowerCase().replace(/[^\w]+/g, "-");
           this.toc.push({ text, level, id: escapedText });
@@ -64,13 +49,18 @@ export class DocumentRenderer {
     });
   }
 
-  renderDocument(doc: DocumentFile) {
-    return this.marked.parse(doc.rawMarkdown) as string;
+  /** @internal */
+  setDocument(doc: DocumentFile) {
+    this.doc = doc;
   }
 
-  generateToc(doc: DocumentFile) {
+  renderDocument() {
+    return this.marked.parse(this.doc.rawMarkdown) as string;
+  }
+
+  generateToc() {
     this.toc = [];
-    this.marked.parse(this.marked.parse(doc.rawMarkdown) as string);
+    this.marked.parse(this.marked.parse(this.doc.rawMarkdown) as string);
     return this.toc;
   }
 

@@ -19,5 +19,9 @@ export interface Plugin {
     base: DocumentBase;
     doc: DocumentFile;
   }) => Promise<string>;
-  prepareMarked?: (p: { base: DocumentBase; marked: Marked }) => Promise<void>;
+  prepareMarked?: (p: {
+    base: DocumentBase;
+    marked: Marked;
+    doc: DocumentFile;
+  }) => Promise<void>;
 }
