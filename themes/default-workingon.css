@@ -84,7 +84,7 @@ html, body {
     right: 0;
     height: var(--mobile-header-height);
 }
-@media (max-width: 768px) {
+@media (max-width: 1100px) {
     :root {
         --mobile-header-height: 3rem;
         --left-width: 80vw;
@@ -92,7 +92,7 @@ html, body {
         --right-width: 80vw;
         --right-width: clamp(240px, 80vw, 400px);
     }
-    #main {
+    #main, .right-inner {
         height: calc(100% - var(--mobile-header-height));
         max-height: calc(100% - var(--mobile-header-height));
     }
