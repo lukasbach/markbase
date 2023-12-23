@@ -6,7 +6,6 @@ export type DocumentBaseConfiguration = {
   assets?: string[];
   out?: string;
   relativeUrl?: string;
-  theme?: string;
   rootDocument?: string;
   hoistHeadings?: boolean;
   headerButtons?: {

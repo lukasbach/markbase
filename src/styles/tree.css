@@ -1,0 +1,86 @@
+.tree {
+    margin: 0 var(--sidebar-margin);
+    padding: 0;
+}
+
+.tree ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0 1rem;
+    border-left: 1px solid var(--border);
+}
+/*.tree.hoist > li > ul {
+    border-left: none;
+    margin-left: 0;
+}
+.tree.hoist > li > ul > li  {
+    margin-left: 0;
+}*/
+.tree li {
+    list-style: none;
+    margin-left: .2rem;
+}
+.tree button, .tree a, .tree .hoisted-heading {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 0 2px;
+    padding: .2rem .6rem;
+    border-radius: 4px;
+
+    text-decoration: none;
+    border: none !important;
+    background: none;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+
+    font-weight: 500;
+    font-size: .9rem;
+    color: var(--fg);
+}
+.tree button span, .tree a span, .tree .hoisted-heading span {
+    flex-grow: 1;
+}
+.tree button svg:first-child, .tree a svg:first-child, .tree .hoisted-heading svg:first-child {
+    margin-right: .5rem;
+}
+.tree button:hover, .tree a:hover, .tree li.active a, .tree li.active button {
+    background-color: var(--bg-highlighted);
+}
+.tree li.active a, .tree li.active button {
+    background-color: var(--primary);
+    color: var(--fg-on-primary) !important;
+}
+.tree .hoisted-heading {
+    color: var(--fg-highlighted);
+    margin-bottom: .5rem;
+    cursor: default;
+    border-radius: 0;
+    font-size: 1rem;
+}
+.tree li:not(:first-child) .hoisted-heading {
+    margin-top: 1.5rem;
+}
+
+.tree li.active a, .tree li.active button {
+    color: var(--fg-highlighted);
+}
+.tree button:focus-visible, .tree a:focus-visible {
+    outline: 1px solid var(--fg-highlighted);
+    outline-offset: -2px;
+}
+
+.tree button svg:last-child {
+    transition: transform .2s ease;
+}
+.tree li.open > button svg:last-child {
+    transform: rotate(90deg);
+}
+
+.tree [data-folder-item] > ul {
+    transition: height .2s ease;
+    overflow: hidden;
+}

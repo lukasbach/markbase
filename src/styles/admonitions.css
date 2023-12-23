@@ -1,0 +1,33 @@
+.admonition, .markdown-alert {
+    background-color: var(--_bg, var(--bg-dim));
+    border: 1px solid var(--_border, var(--border));
+    margin: .5rem 0;
+    padding: .5rem .5rem .5rem 0;
+    border-radius: 4px;
+}
+.admonition-title, .markdown-alert-title {
+    display: flex;
+    align-items: center;
+    color: var(--_fg, var(--fg));
+    margin: 0 .5rem;
+    font-weight: 500;
+}
+.admonition > *:not(.admonition-title), .markdown-alert > *:not(.markdown-alert-title) {
+    margin-left: calc(20px + 8px + .5rem);
+}
+.admonition > *:last-child, .markdown-alert > *:last-child {
+    margin-bottom: 0;
+}
+.admonition-title::before, .markdown-alert-title::before {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    content: "";
+    mask: var(--icon, "") no-repeat 50% 50%;
+    mask-size: cover;
+    background-color: var(--_fg, var(--fg));
+    margin-right: 8px;
+}
+.markdown-alert-title > svg {
+    display: none;
+}

@@ -18,11 +18,13 @@ import { searchIndexPlugin } from "../plugins/search-index";
 import { patchHrefsPlugin } from "../plugins/patch-hrefs";
 import { indexFilesPlugin } from "../plugins/index-files";
 import { styleCustomizationPlugin } from "../plugins/style-customization";
+import { loadStyleFilesPlugin } from "../plugins/load-style-files";
 
 export const DEFAULT_OUT_DIR = "out";
 
 export class DocumentBase {
   public plugins: Plugin[] = [
+    loadStyleFilesPlugin,
     admonitionsPlugin,
     sitemapPlugin,
     searchIndexPlugin,
@@ -228,23 +230,10 @@ export class DocumentBase {
 
     await fs.copy(path.join(__dirname, "../dist-client"), outPath);
 
-    let styles = await fs.readFile(
-      path.join(
-        __dirname,
-        "../themes",
-        `${this.config.theme ?? "default"}.css`
-      ),
-      "utf-8"
-    );
-    styles = await this.reducePlugins(styles, async (acc, plugin) =>
+    const styles = await this.reducePlugins("", async (acc, plugin) =>
       plugin.patchCss?.({ base: this, css: acc })
     );
     await fs.writeFile(path.join(outPath, "style.css"), styles);
-
-    await fs.copy(
-      path.join(__dirname, "../themes/content.css"),
-      path.join(outPath, "content.css")
-    );
 
     await this.reducePlugins(undefined, (_, plugin) =>
       plugin.postbuild?.(this)

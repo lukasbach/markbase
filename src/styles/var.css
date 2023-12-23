@@ -1,0 +1,70 @@
+.dark {
+    color-scheme: dark;
+}
+.light {
+    color-scheme: light;
+}
+
+:root {
+    --bg: #0a0a0a;
+    --bg-dim: #0f0f10;
+    --bg-highlighted: #171717;
+    --fg-highlighted: #ffffff;
+    --fg: #adadad;
+    --fg-muted: #919191;
+    --primary: #307ee5;
+    --fg-on-primary: #ffffff;
+    --sidebar-margin: 1rem;
+    --border: rgba(255, 255, 255, 0.1);
+    --mobile-header-height: 0;
+    --left-width: 320px;
+    --right-width: 240px;
+
+    /* https://blueprintjs.com/docs/#core/colors
+       topmost with -22 is bg, top-most is border, bottom-most is fg */
+    --red-bg: #AC2F3322;
+    --red-border: #AC2F33;
+    --red-fg: #FA999C;
+    --blue-bg: #184A9022;
+    --blue-border: #184A90;
+    --blue-fg: #8ABBFF;
+    --green-bg: #165A3622;
+    --green-border: #165A36;
+    --green-fg: #72CA9B;
+    --orange-bg: #77450D22;
+    --orange-border: #77450D;
+    --orange-fg: #FBB360;
+    --indigo-bg: #5642A622;
+    --indigo-border: #5642A6;
+    --indigo-fg: #BDADFF;
+    --vermilion-bg: #96290D22;
+    --vermilion-border: #96290D;
+    --vermilion-fg: #FF9980;
+    --turquoise-bg: #004D4622;
+    --turquoise-border: #004D46;
+    --turquoise-fg: #7AE1D8;
+    --lime-bg: #43501B22;
+    --lime-border: #43501B;
+    --lime-fg: #D4F17E;
+}
+
+.light {
+    --bg: #ffffff;
+    --bg-dim: #ffffff;
+    --bg-highlighted: #d9dce1;
+    --fg-highlighted: #000000;
+    --fg: #363636;
+    --fg-muted: #4d4d4d;
+    --primary: #307ee5;
+    --sidebar-margin: 1rem;
+    --border: rgba(0, 0, 0, 0.1);
+
+    --red-fg: var(--red-border);
+    --blue-fg: var(--blue-border);
+    --green-fg: var(--green-border);
+    --orange-fg: var(--orange-border);
+    --indigo-fg: var(--indigo-border);
+    --vermilion-fg: var(--vermilion-border);
+    --turquoise-fg: var(--turquoise-border);
+    --lime-fg: var(--lime-border);
+}

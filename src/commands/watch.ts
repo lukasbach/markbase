@@ -1,6 +1,7 @@
 import { Command, Option } from "commander";
 import * as fs from "fs";
 import { createServer } from "http-server";
+import path from "path";
 import { DEFAULT_OUT_DIR, DocumentBase } from "../core/document-base";
 
 export interface BuildOptions {
@@ -34,7 +35,7 @@ watchCommand.action(async (basePath, options: BuildOptions) => {
     base.logStats();
   }
 
-  fs.watch(basePath, async () => {
+  const rebuild = async () => {
     if (Date.now() - lastRebuild < 1000) {
       return;
     }
@@ -44,5 +45,8 @@ watchCommand.action(async (basePath, options: BuildOptions) => {
     base.setOutDir(options.out);
     await base.build();
     console.log("Rebuilt document base.");
-  });
+  };
+
+  fs.watch(basePath, rebuild);
+  fs.watch(path.join(__dirname, "styles"), rebuild);
 });
