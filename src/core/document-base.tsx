@@ -17,6 +17,7 @@ import { sitemapPlugin } from "../plugins/sitemap";
 import { searchIndexPlugin } from "../plugins/search-index";
 import { patchHrefsPlugin } from "../plugins/patch-hrefs";
 import { indexFilesPlugin } from "../plugins/index-files";
+import { styleCustomizationPlugin } from "../plugins/style-customization";
 
 export const DEFAULT_OUT_DIR = "out";
 
@@ -27,6 +28,7 @@ export class DocumentBase {
     searchIndexPlugin,
     patchHrefsPlugin,
     indexFilesPlugin,
+    styleCustomizationPlugin,
   ];
 
   public stats: BaseStats = {

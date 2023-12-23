@@ -8,3 +8,5 @@ headerButtons:
   - title: GitHub
     icon: FaGithub
     link: https://github.com
+styles:
+  primary: steelblue

@@ -15,6 +15,8 @@ export type DocumentBaseConfiguration = {
     link?: string;
     target?: string;
   }[];
+  styles: Record<string, string>;
+  lightStyles: Record<string, string>;
 };
 
 export type TocEntry = {
