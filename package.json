@@ -2,7 +2,6 @@
   "name": "markbase",
   "type": "commonjs",
   "version": "0.0.0",
-  "private": true,
   "description": "Quickly generate an HTML page from a bunch of markdown files",
   "tags": [
     "markdown",
@@ -96,7 +95,7 @@
     "access": "public"
   },
   "publish": {
-    "preScripts": "build,lint:test,test",
+    "preScripts": "build,lint",
     "releaseNotesSource": "next-releasenotes.md"
   }
 }
