@@ -4,6 +4,7 @@ import { HiBars3CenterLeft, HiMoon, HiSun } from "react-icons/hi2";
 import { DocumentBase } from "../core/document-base";
 import { DocumentFile } from "../core/document-file";
 import { Tree } from "./tree";
+import { IconByString } from "./icon-by-string";
 
 export const PageContainer: FC<
   PropsWithChildren<{
@@ -47,10 +48,12 @@ export const PageContainer: FC<
         <div id="main">
           <div className="left">
             <header className="page-header">
-              <a href={`${base.config.relativeUrl ?? ""}/`}>
-                {base.config.title ?? "Home"}
-              </a>
-              <button className="color-mode-switch">
+              <div className="page-header-title">
+                <a href={`${base.config.relativeUrl ?? ""}/`}>
+                  {base.config.title ?? "Home"}
+                </a>
+              </div>
+              <button className="color-mode-switch header-btn">
                 <span className="sun">
                   <HiSun />
                 </span>
@@ -58,6 +61,17 @@ export const PageContainer: FC<
                   <HiMoon />
                 </span>
               </button>
+              {base.config.headerButtons?.map((btn) => (
+                <a
+                  key={btn.link}
+                  href={btn.link}
+                  target={btn.target}
+                  className="header-btn"
+                  title={btn.title}
+                >
+                  {btn.icon && <IconByString iconKey={btn.icon} />}
+                </a>
+              ))}
             </header>
             <div className="search-container">
               <button className="search-button">

@@ -167,7 +167,7 @@ html, body {
     display: flex;
     height: 100%;
     background-color: var(--bg);
-    color: var(--fg);
+    color: var(--fg-highlighted);
 }
 
 /* Main Layout */
@@ -206,6 +206,9 @@ html, body {
     height: 100vh;
     border-right: 1px solid var(--border);
 }
+.left > :last-child {
+    margin-bottom: 2rem;
+}
 
 .content {
     flex-grow: 1;
@@ -217,7 +220,7 @@ html, body {
 .content-inner {
     max-width: 800px;
     min-width: 600px;
-    margin: 0 20px;
+    margin: 40px 20px 0;
 }
 
 /* Tree */
@@ -322,25 +325,34 @@ html, body {
     margin: 1rem var(--sidebar-margin);
     display: flex;
 }
+.page-header > :first-child {
+    flex-grow: 1;
+}
 
-.page-header a {
+.page-header-title a {
     color: var(--fg-highlighted);
     text-decoration: none;
     font-weight: 500;
-    flex-grow: 1;
     border: none !important;
 }
 
-.color-mode-switch {
+.header-btn {
     border-radius: 999px;
     border: 1px solid var(--border);
-    padding: .5rem .5rem;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: var(--bg-dim);
     color: var(--fg);
     cursor: pointer;
+    margin-left: .2rem;
+    border-color: var(--border) !important;
 }
-.color-mode-switch:hover {
+.header-btn:hover {
     background-color: var(--bg-highlighted);
+    color: var(--fg-highlighted);
 }
 .dark .color-mode-switch .sun {
     display: none;
@@ -459,13 +471,9 @@ h1:focus-within .anchor, h2:focus-within .anchor, h3:focus-within .anchor, h4:fo
 }
 
 h1 {
-    border-bottom: 1px solid var(--border);
-    padding-bottom: .5rem;
     font-size: 2.2rem;
 }
 h2 {
-    border-bottom: 1px solid var(--border);
-    padding-bottom: .5rem;
     margin: 2rem 0 0 0;
 }
 h3 {

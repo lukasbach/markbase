@@ -9,6 +9,12 @@ export type DocumentBaseConfiguration = {
   theme?: string;
   rootDocument?: string;
   hoistHeadings?: boolean;
+  headerButtons?: {
+    title?: string;
+    icon?: string;
+    link?: string;
+    target?: string;
+  }[];
 };
 
 export type TocEntry = {

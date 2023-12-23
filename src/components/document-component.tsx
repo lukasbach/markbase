@@ -20,6 +20,13 @@ export const DocumentComponent: FC<{
         </>
       }
     >
+      <div className="document-header">
+        <h1>{doc.getDisplayName()}</h1>
+        {doc.frontmatter.description && (
+          <p className="document-description">{doc.frontmatter.description}</p>
+        )}
+      </div>
+
       <div
         dangerouslySetInnerHTML={{
           __html: doc.renderer.renderDocument(),

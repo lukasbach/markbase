@@ -1,2 +1,10 @@
 rootDocument: /deeply/abc/def/ghi
 hoistHeadings: true
+headerButtons:
+  - title: Sponsor
+    icon: SiGithubsponsors
+    link: https://github.com
+    target: _blank
+  - title: GitHub
+    icon: FaGithub
+    link: https://github.com
