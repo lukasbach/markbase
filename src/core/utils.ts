@@ -1,6 +1,5 @@
 import { glob, GlobOptions } from "glob";
 import { exec } from "child_process";
-import { Readable } from "stream";
 import * as fs from "fs-extra";
 import path from "path";
 import { parse as parseYaml } from "yaml";

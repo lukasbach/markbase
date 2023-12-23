@@ -1,4 +1,4 @@
-import { Command, Option } from "commander";
+import { Command } from "commander";
 import * as fs from "fs";
 import { createServer } from "http-server";
 import path from "path";

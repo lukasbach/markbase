@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import path from "path";
 import { HiOutlineChevronRight } from "react-icons/hi2";
 import { DocumentBase } from "../core/document-base";
 import { DocumentFile } from "../core/document-file";

@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-import path from "path";
 import { Plugin } from "../core/plugin";
 
 /*
@@ -53,7 +52,7 @@ function baseUrl(base: any) {
 } */
 
 export const patchHrefsPlugin: Plugin = {
-  prepareMarked: async ({ marked, base, doc }) => {
+  prepareMarked: async ({ marked, base }) => {
     marked.use({
       walkTokens: (token) => {
         if (token.type !== "link" && token.type !== "image") {

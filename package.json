@@ -1,5 +1,5 @@
 {
-  "name": "document-fast",
+  "name": "markbase",
   "type": "commonjs",
   "version": "0.0.0",
   "private": true,
@@ -33,7 +33,8 @@
     "dist-client/**/*",
     "lib/**/*",
     "!lib/**/*.spec.js",
-    "src/**/*"
+    "src/**/*",
+    "highlight-styles/**/*"
   ],
   "dependencies": {
     "commander": "^11.1.0",
@@ -80,9 +81,15 @@
     "parserOptions": {
       "project": "./tsconfig.json"
     },
+    "rules": {
+      "@typescript-eslint/no-shadow": "off"
+    },
     "ignorePatterns": [
       "lib",
-      "*.js"
+      "*.js",
+      "src/client",
+      "out",
+      "dist-client"
     ]
   },
   "publishConfig": {

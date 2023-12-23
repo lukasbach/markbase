@@ -1,4 +1,4 @@
-import { Command, Option } from "commander";
+import { Command } from "commander";
 import { DocumentBase } from "../core/document-base";
 
 export interface BuildOptions {
