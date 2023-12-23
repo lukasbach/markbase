@@ -25,7 +25,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "release": "publish-fast",
-    "start": "esr src/index.ts",
+    "start": "ts-node src/index.ts",
     "dev": "yarn start watch ./sample"
   },
   "files": [
@@ -69,6 +69,7 @@
     "esbuild-runner": "^2.2.2",
     "eslint": "^8.55.0",
     "publish-fast": "^0.0.20",
+    "ts-node": "^10.9.2",
     "typescript": "latest",
     "zx": "^7.2.3"
   },

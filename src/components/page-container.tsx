@@ -48,10 +48,6 @@ export const PageContainer: FC<
           rel="stylesheet"
           href={`${base.config.relativeUrl ?? ""}/style.css`}
         />
-        <link
-          rel="stylesheet"
-          href={`${base.config.relativeUrl ?? ""}/content.css`}
-        />
         <title>{doc.getDisplayName()}</title>
         <script
           dangerouslySetInnerHTML={{

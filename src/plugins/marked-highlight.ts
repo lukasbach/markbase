@@ -29,7 +29,7 @@ export const markedHighlightPlugin: Plugin = {
     const dark = await fs.readFile(
       path.join(
         __dirname,
-        "../highlight-styles",
+        "../../highlight-styles",
         `${base.config.syntaxTheme?.dark ?? "atom-one-dark"}.css`
       ),
       "utf-8"
@@ -37,7 +37,7 @@ export const markedHighlightPlugin: Plugin = {
     const light = await fs.readFile(
       path.join(
         __dirname,
-        "../highlight-styles",
+        "../../highlight-styles",
         `${base.config.syntaxTheme?.light ?? "atom-one-light"}.css`
       ),
       "utf-8"

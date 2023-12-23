@@ -5,7 +5,9 @@ import { globAll } from "../core/utils";
 
 export const loadStyleFilesPlugin: Plugin = {
   patchCss: async ({ css }) => {
-    const files = await globAll(["styles/**/*.css"], { cwd: __dirname });
+    const files = await globAll(["../../src/styles/**/*.css"], {
+      cwd: __dirname,
+    });
     let styles = css;
 
     for (const file of files) {

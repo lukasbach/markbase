@@ -230,7 +230,7 @@ export class DocumentBase {
       await fs.writeFile(out, content);
     }
 
-    await fs.copy(path.join(__dirname, "../dist-client"), outPath);
+    await fs.copy(path.join(__dirname, "../../dist-client"), outPath);
 
     const styles = await this.reducePlugins("", async (acc, plugin) =>
       plugin.patchCss?.({ base: this, css: acc })

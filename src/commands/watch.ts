@@ -51,5 +51,5 @@ watchCommand.action(async (basePath, options: BuildOptions) => {
   };
 
   fs.watch(basePath, rebuild);
-  fs.watch(path.join(__dirname, "styles"), rebuild);
+  fs.watch(path.join(__dirname, "../styles"), rebuild);
 });
