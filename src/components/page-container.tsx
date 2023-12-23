@@ -13,6 +13,34 @@ export const PageContainer: FC<
     right?: ReactNode;
   }>
 > = ({ children, doc, base, right }) => {
+  const headerButtons = (
+    <>
+      {" "}
+      <button
+        className="color-mode-switch header-btn"
+        aria-label="Switch color mode"
+      >
+        <span className="sun">
+          <HiSun />
+        </span>
+        <span className="moon">
+          <HiMoon />
+        </span>
+      </button>
+      {base.config.headerButtons?.map((btn) => (
+        <a
+          key={btn.link}
+          href={btn.link}
+          target={btn.target}
+          className="header-btn"
+          title={btn.title}
+        >
+          {btn.icon && <IconByString iconKey={btn.icon} />}
+        </a>
+      ))}
+    </>
+  );
+
   return (
     <html>
       <head>
@@ -34,60 +62,45 @@ export const PageContainer: FC<
           <script>{"window.HOT_RELOAD = true;"}</script>
         )}
       </head>
-      <body>
-        <div className="mobile-header">
-          <button id="open-left-bar" aria-label="Open Menu">
-            <HiMenu />
-          </button>
+      <body className={base.config.noSidebar ? "no-sidebar" : ""}>
+        <div className={"mobile-header"}>
+          {!base.config.noSidebar && (
+            <button id="open-left-bar" aria-label="Open Menu">
+              <HiMenu />
+            </button>
+          )}
           <div>
-            <a href={`${base.config.relativeUrl ?? ""}/`}>
+            <a href={`${base.config.relativeUrl ?? ""}/`} className="root-link">
               {base.config.title ?? "Home"}
             </a>
           </div>
+          {base.config.noSidebar && headerButtons}
           <button id="open-right-bar" aria-label="Open Table of Contents">
             <HiBars3CenterLeft />
           </button>
         </div>
         <div id="main">
-          <div className="left">
-            <header className="page-header">
-              <div className="page-header-title">
-                <a href={`${base.config.relativeUrl ?? ""}/`}>
-                  {base.config.title ?? "Home"}
-                </a>
+          {!base.config.noSidebar && (
+            <div className="left">
+              <header className="page-header">
+                <div className="page-header-title">
+                  <a href={`${base.config.relativeUrl ?? ""}/`}>
+                    {base.config.title ?? "Home"}
+                  </a>
+                </div>
+
+                {headerButtons}
+              </header>
+              <div className="search-container">
+                <button className="search-button">
+                  <HiSearch />
+                  <span className="text">Search...</span>
+                  <span className="kbd">Ctrl + K</span>
+                </button>
               </div>
-              <button
-                className="color-mode-switch header-btn"
-                aria-label="Switch color mode"
-              >
-                <span className="sun">
-                  <HiSun />
-                </span>
-                <span className="moon">
-                  <HiMoon />
-                </span>
-              </button>
-              {base.config.headerButtons?.map((btn) => (
-                <a
-                  key={btn.link}
-                  href={btn.link}
-                  target={btn.target}
-                  className="header-btn"
-                  title={btn.title}
-                >
-                  {btn.icon && <IconByString iconKey={btn.icon} />}
-                </a>
-              ))}
-            </header>
-            <div className="search-container">
-              <button className="search-button">
-                <HiSearch />
-                <span className="text">Search...</span>
-                <span className="kbd">Ctrl + K</span>
-              </button>
+              <Tree base={base} doc={doc} />
             </div>
-            <Tree base={base} doc={doc} />
-          </div>
+          )}
           <div className="content">
             <div className="content-inner">{children}</div>
             <div className="right">

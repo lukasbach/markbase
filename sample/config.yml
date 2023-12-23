@@ -10,3 +10,4 @@ headerButtons:
     link: https://github.com
 styles:
   primary: steelblue
+noSidebar: true
