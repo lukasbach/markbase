@@ -444,6 +444,19 @@ html, body {
 }
 
 /* Content TODO move */
+.document-header {
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+}
+.document-header h1 {
+    margin: 0;
+}
+.document-description {
+    margin: .3rem 0 0;
+    color: var(--fg-muted);
+}
+
 h1, h2, h3, h4, h5, h6 {
     position: relative;
     overflow: visible;
@@ -471,7 +484,7 @@ h1:focus-within .anchor, h2:focus-within .anchor, h3:focus-within .anchor, h4:fo
 }
 
 h1 {
-    font-size: 2.2rem;
+    font-size: 2.5rem;
 }
 h2 {
     margin: 2rem 0 0 0;

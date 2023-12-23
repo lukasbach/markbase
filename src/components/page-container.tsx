@@ -53,7 +53,10 @@ export const PageContainer: FC<
                   {base.config.title ?? "Home"}
                 </a>
               </div>
-              <button className="color-mode-switch header-btn">
+              <button
+                className="color-mode-switch header-btn"
+                aria-label="Switch color mode"
+              >
                 <span className="sun">
                   <HiSun />
                 </span>

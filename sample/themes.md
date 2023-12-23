@@ -13,6 +13,7 @@
 - https://linear.app/docs/select-issues
 - https://reflect.app/
 - https://tx.shadcn.com/docs
+- https://tailwindcss.com/docs/optimizing-for-production
 
 
 ## Blog page design
