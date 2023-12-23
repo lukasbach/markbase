@@ -619,6 +619,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/ws@npm:^8":
+  version: 8.5.10
+  resolution: "@types/ws@npm:8.5.10"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: e9af279b984c4a04ab53295a40aa95c3e9685f04888df5c6920860d1dd073fcc57c7bd33578a04b285b2c655a0b52258d34bee0a20569dca8defb8393e1e5d29
+  languageName: node
+  linkType: hard
+
 "@typescript-eslint/eslint-plugin@npm:^5.57.0":
   version: 5.62.0
   resolution: "@typescript-eslint/eslint-plugin@npm:5.62.0"
@@ -1254,6 +1263,7 @@ __metadata:
     "@types/node": "npm:^20.10.4"
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"
+    "@types/ws": "npm:^8"
     commander: "npm:^11.1.0"
     esbuild: "npm:^0.19.8"
     esbuild-runner: "npm:^2.2.2"
@@ -1275,6 +1285,7 @@ __metadata:
     react-dom: "npm:^18.2.0"
     react-icons: "npm:^4.12.0"
     typescript: "npm:latest"
+    ws: "npm:^8.15.1"
     yaml: "npm:^2.3.4"
   bin:
     document-fast: lib/index.js
@@ -4210,6 +4221,21 @@ __metadata:
   version: 1.0.2
   resolution: "wrappy@npm:1.0.2"
   checksum: 56fece1a4018c6a6c8e28fbc88c87e0fbf4ea8fd64fc6c63b18f4acc4bd13e0ad2515189786dd2c30d3eec9663d70f4ecf699330002f8ccb547e4a18231fc9f0
+  languageName: node
+  linkType: hard
+
+"ws@npm:^8.15.1":
+  version: 8.15.1
+  resolution: "ws@npm:8.15.1"
+  peerDependencies:
+    bufferutil: ^4.0.1
+    utf-8-validate: ">=5.0.2"
+  peerDependenciesMeta:
+    bufferutil:
+      optional: true
+    utf-8-validate:
+      optional: true
+  checksum: 9964360dd5ab35c7376bd7c4295a3c8bd44ea0838c9413742548a6fb3ec371fc6c18552d5b8e76bdc21536db1909765612815bae072674b5ec69971605395a96
   languageName: node
   linkType: hard
 

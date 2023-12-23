@@ -30,6 +30,9 @@ export const PageContainer: FC<
             __html: `window.relativeUrl = "${base.config.relativeUrl ?? ""}"`,
           }}
         />
+        {base.config.hotreload && (
+          <script>{"window.HOT_RELOAD = true;"}</script>
+        )}
       </head>
       <body>
         <div className="mobile-header">

@@ -16,6 +16,7 @@ export type DocumentBaseConfiguration = {
   }[];
   styles: Record<string, string>;
   lightStyles: Record<string, string>;
+  hotreload?: boolean;
 };
 
 export type TocEntry = {

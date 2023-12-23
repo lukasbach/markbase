@@ -203,3 +203,10 @@ document.getElementsByClassName("left")[0]?.scrollTo(0, scrollValue);
 document.getElementsByClassName("left")[0]?.addEventListener("scrollend", e => {
     writeToLocalStorage(LsKeys.LeftScroll, (e.target as HTMLElement).scrollTop);
 });
+
+if ((window as any).HOT_RELOAD) {
+    const webSocket = new WebSocket(location.origin.replace(/^http/, 'ws'));
+    webSocket.addEventListener("message", () => {
+        window.location.reload();
+    });
+}
