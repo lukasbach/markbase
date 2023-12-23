@@ -18,6 +18,7 @@ export type DocumentBaseConfiguration = {
   lightStyles: Record<string, string>;
   hotreload?: boolean;
   noSidebar?: boolean;
+  syntaxTheme?: { light?: string; dark?: string };
 };
 
 export type TocEntry = {

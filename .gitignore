@@ -13,3 +13,4 @@ yarn-error.log
 lib
 out
 dist-client
+highlight-styles

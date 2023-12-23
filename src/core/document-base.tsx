@@ -19,6 +19,7 @@ import { patchHrefsPlugin } from "../plugins/patch-hrefs";
 import { indexFilesPlugin } from "../plugins/index-files";
 import { styleCustomizationPlugin } from "../plugins/style-customization";
 import { loadStyleFilesPlugin } from "../plugins/load-style-files";
+import { markedHighlightPlugin } from "../plugins/marked-highlight";
 
 export const DEFAULT_OUT_DIR = "out";
 
@@ -31,6 +32,7 @@ export class DocumentBase {
     patchHrefsPlugin,
     indexFilesPlugin,
     styleCustomizationPlugin,
+    markedHighlightPlugin,
   ];
 
   public stats: BaseStats = {
