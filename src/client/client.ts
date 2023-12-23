@@ -1,6 +1,7 @@
 enum LsKeys {
     OpenFolders = "open-folders",
     ColorMode = "color-mode",
+    LeftScroll = "left-scroll",
 }
 let openFolders: string[] = [];
 
@@ -194,4 +195,11 @@ document.getElementsByClassName("left")[0]?.addEventListener("click", e => {
 });
 document.getElementsByClassName("right")[0]?.addEventListener("click", e => {
     e.stopPropagation();
+});
+
+
+const scrollValue = getFromLocalStorage(LsKeys.LeftScroll, 0);
+document.getElementsByClassName("left")[0]?.scrollTo(0, scrollValue);
+document.getElementsByClassName("left")[0]?.addEventListener("scrollend", e => {
+    writeToLocalStorage(LsKeys.LeftScroll, (e.target as HTMLElement).scrollTop);
 });
