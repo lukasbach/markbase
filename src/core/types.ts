@@ -2,6 +2,7 @@ import { DocumentFile } from "./document-file";
 
 export type DocumentBaseConfiguration = {
   title?: string;
+  description?: string;
   documents?: string[];
   assets?: string[];
   out?: string;
@@ -23,6 +24,8 @@ export type DocumentBaseConfiguration = {
 
   // any config from https://www.npmjs.com/package/favicons
   favicon?: { source?: string; configuration?: any };
+
+  seo?: { twitterHandle?: string };
 };
 
 export type TocEntry = {

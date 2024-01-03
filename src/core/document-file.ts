@@ -74,4 +74,13 @@ export class DocumentFile {
   getFileName() {
     return path.basename(this.relativePath, path.extname(this.relativePath));
   }
+
+  getSummary() {
+    return (
+      this.frontmatter.summary ??
+      this.frontmatter.description ??
+      this.frontmatter.descr ??
+      this.excerp
+    );
+  }
 }

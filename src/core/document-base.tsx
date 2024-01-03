@@ -22,6 +22,7 @@ import { loadStyleFilesPlugin } from "../plugins/load-style-files";
 import { markedHighlightPlugin } from "../plugins/marked-highlight";
 import { hoistMarkdownTitlesPlugin } from "../plugins/hoist-markdown-titles";
 import { faviconPlugin } from "../plugins/favicon";
+import { seoPlugin } from "../styles/seo";
 
 export const DEFAULT_OUT_DIR = "out";
 
@@ -37,6 +38,7 @@ export class DocumentBase {
     markedHighlightPlugin,
     hoistMarkdownTitlesPlugin,
     faviconPlugin,
+    seoPlugin,
   ];
 
   public stats: BaseStats = {
@@ -59,6 +61,8 @@ export class DocumentBase {
     const config = await DocumentBase.loadConfig(basePath);
     const folderConfigs: Record<string, FolderConfig> = {};
     const files: DocumentFile[] = [];
+
+    config.title ??= path.basename(basePath);
 
     for (const folderConfig of await globAll(
       [
