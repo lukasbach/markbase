@@ -9,14 +9,19 @@ export const DocumentComponent: FC<{
   base: DocumentBase;
   doc: DocumentFile;
 }> = ({ base, doc }) => {
+  const toc = doc.renderer.generateToc();
   return (
     <PageContainer
       base={base}
       doc={doc}
       right={
         <>
-          <div className="sidebar-header">On this Page</div>
-          <TocTree items={nestifyTocs(doc.renderer.generateToc())} />
+          {toc.length > 0 && (
+            <>
+              <div className="sidebar-header">On this Page</div>
+              <TocTree items={nestifyTocs(toc)} />
+            </>
+          )}
         </>
       }
     >

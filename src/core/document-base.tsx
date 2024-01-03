@@ -20,6 +20,7 @@ import { indexFilesPlugin } from "../plugins/index-files";
 import { styleCustomizationPlugin } from "../plugins/style-customization";
 import { loadStyleFilesPlugin } from "../plugins/load-style-files";
 import { markedHighlightPlugin } from "../plugins/marked-highlight";
+import { hoistMarkdownTitlesPlugin } from "../plugins/hoist-markdown-titles";
 
 export const DEFAULT_OUT_DIR = "out";
 
@@ -33,6 +34,7 @@ export class DocumentBase {
     indexFilesPlugin,
     styleCustomizationPlugin,
     markedHighlightPlugin,
+    hoistMarkdownTitlesPlugin,
   ];
 
   public stats: BaseStats = {
@@ -103,18 +105,19 @@ export class DocumentBase {
   }
 
   getFolderFiles(folder: string) {
-    return this.documents
-      .filter((d) => d.getFolder() === path.normalize(`${folder}/`))
-      .sort((a, b) => {
-        if (
-          a.frontmatter?.order !== undefined ||
-          b.frontmatter?.order !== undefined
-        ) {
-          return (a.frontmatter?.order ?? 0) - (b.frontmatter?.order ?? 0);
-        }
-
-        return a.relativePath.localeCompare(b.relativePath);
-      });
+    return this.documents.filter(
+      (d) => d.getFolder() === path.normalize(`${folder}/`)
+    );
+    // sort not needed since only function consumer is already sorting..+
+    // .sort((a, b) => {
+    //   if (
+    //     a.frontmatter?.order !== undefined ||
+    //     b.frontmatter?.order !== undefined
+    //   ) {
+    //     return (a.frontmatter?.order ?? 0) - (b.frontmatter?.order ?? 0);
+    //   }
+    //   return a.relativePath.localeCompare(b.relativePath);
+    // });
   }
 
   getFolderSubfolders(folder: string) {
@@ -210,6 +213,10 @@ export class DocumentBase {
           marked: doc.renderer.getMarked(),
         })
       );
+
+      // do an early run of rendering so that plugins, that use markdown data for modifying frontmatter,
+      // can do so early on
+      doc.renderer.renderDocument();
     }
 
     const outPath = this.getOutDir();

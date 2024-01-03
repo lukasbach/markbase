@@ -11,3 +11,4 @@ headerButtons:
 styles:
   primary: steelblue
 noSidebar: false
+hoistMarkdownTitles: true

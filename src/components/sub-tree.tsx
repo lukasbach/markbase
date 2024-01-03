@@ -48,7 +48,7 @@ export const SubTree: FC<{
                 {item.frontmatter?.icon ? (
                   <IconByString iconKey={item.frontmatter?.icon} />
                 ) : null}
-                <span>{item.title}</span>
+                <span>{item.doc.getSidebarDisplayName()}</span>
               </a>
             </li>
           );

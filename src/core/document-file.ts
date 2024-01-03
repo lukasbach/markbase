@@ -50,6 +50,10 @@ export class DocumentFile {
     return this.frontmatter.title ?? this.getFileName();
   }
 
+  getSidebarDisplayName() {
+    return this.frontmatter.sidebarTitle ?? this.getDisplayName();
+  }
+
   getSlug() {
     return this.relativePath
       .replaceAll("\\", "/")

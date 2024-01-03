@@ -14,6 +14,7 @@
 - https://reflect.app/
 - https://tx.shadcn.com/docs
 - https://tailwindcss.com/docs/optimizing-for-production
+- https://daisyui.com/components/table/
 
 
 ## Blog page design

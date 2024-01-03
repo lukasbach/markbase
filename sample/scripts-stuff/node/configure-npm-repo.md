@@ -1,0 +1,75 @@
+# node/configure-npm-repo
+
+Configures the package.json based on user input. Some settings, like description, are also synced to the Github repo.
+Also fixes the repo url in the package.json based on the git remote.
+
+
+## Usage
+
+```bash
+npx @lukasbach/scripts node/configure-npm-repo
+```
+
+You can call the script directly if you have installed it globally:
+
+```bash
+npm i -g @lukasbach/scripts
+ldo node/configure-npm-repo
+```
+
+## Options
+
+- `--name`, `-n`: What is the name of the package?
+- `--description`, `-d`: What is the description of the package?
+- `--topics`: What are the tags of the package (comma seperated)?
+- `--author`, `-a`: What is the author of the package?
+- `--license`, `-l`: What is the license of the package?
+- `-v`, `--verbose`: Verbose logging
+
+You can also omit options, and will be asked for them interactively.
+
+Add `--yes` to skip all confirmations.
+
+## Script source
+
+```typescript
+/**
+ * Configures the package.json based on user input. Some settings, like description, are also synced to the Github repo.
+ * Also fixes the repo url in the package.json based on the git remote.
+ */
+
+const packageJson = await utils.node.getPackageJson();
+
+const name = await ask.text("name,n", "What is the name of the package?", packageJson.name);
+const description = await ask.text("description,d", "What is the description of the package?", packageJson.description);
+const topics = (
+  await ask.text("topics", "What are the tags of the package (comma seperated)?", packageJson.tags?.join(", "))
+)
+  .split(",")
+  .map((topic) => topic.trim());
+
+const userName = (await $`git config --global user.name`).stdout;
+const email = (await $`git config --global user.email`).stdout;
+
+const author = await ask.text("a,author", "What is the author of the package?", `${userName} <${email}>`);
+const license = await ask.text("l,license", "What is the license of the package?", packageJson.license);
+
+const repositoryPromise = $`git config --get remote.origin.url`.catch(() => undefined);
+const repository = (await repositoryPromise)?.stdout;
+
+await utils.node.amendPackageJson({
+  name,
+  description,
+  tags: topics,
+  author,
+  license,
+  repository,
+});
+
+if (repository && (await ask.confirm("Do you want to sync topics and description to Github?"))) {
+  await $`gh repo edit --add-topic=${topics.join(",")}`;
+  await $`gh repo edit --description=${description}`;
+}
+
+````
+

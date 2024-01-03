@@ -7,7 +7,7 @@ import { DEFAULT_OUT_DIR, DocumentBase } from "../core/document-base";
 
 export interface BuildOptions {
   out?: string;
-  port: string;
+  port?: string;
 }
 
 export const watchCommand = new Command("watch");
@@ -15,7 +15,7 @@ export const watchCommand = new Command("watch");
 watchCommand.argument("<path>", "Path to the document base");
 
 watchCommand.option("-o, --out <path>", "Path to the output directory");
-watchCommand.option("-p, --port <port>", "Server port", "3030");
+watchCommand.option("-p, --port <port>", "Server port");
 
 let lastRebuild = Date.now();
 
@@ -30,8 +30,14 @@ watchCommand.action(async (basePath, options: BuildOptions) => {
   });
   const ws = new WebSocketServer({ server: (server as any).server });
 
-  server.listen(options.port, () => {
-    console.log(`Server listening on http://localhost:${options.port}`);
+  const port = await (
+    await import("get-port")
+  ).default({
+    port: options.port ? parseInt(options.port, 10) : 3000,
+  });
+
+  server.listen(port, () => {
+    console.log(`Server listening on http://localhost:${port}`);
   });
 
   base.logStats();
@@ -51,5 +57,9 @@ watchCommand.action(async (basePath, options: BuildOptions) => {
   };
 
   fs.watch(basePath, rebuild);
-  fs.watch(path.join(__dirname, "../styles"), rebuild);
+
+  const stylesPath = path.join(__dirname, "../styles");
+  if (fs.existsSync(stylesPath)) {
+    fs.watch(stylesPath, rebuild);
+  }
 });

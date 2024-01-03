@@ -2185,6 +2185,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"get-port@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "get-port@npm:7.0.0"
+  checksum: 8d6ba2a45ed0171dcacf67c69faf315f4fddf09cdb6596648951746430103415b7a79feb35e78fba71e8bcbe0c3dbf64fea384963302c689dcae2359bea3b369
+  languageName: node
+  linkType: hard
+
 "get-stream@npm:^6.0.0":
   version: 6.0.1
   resolution: "get-stream@npm:6.0.1"
@@ -3039,6 +3046,7 @@ __metadata:
     esbuild-runner: "npm:^2.2.2"
     eslint: "npm:^8.55.0"
     fs-extra: "npm:^11.2.0"
+    get-port: "npm:^7.0.0"
     glob: "npm:^10.3.10"
     gray-matter: "npm:^4.0.3"
     highlight.js: "npm:^11.9.0"

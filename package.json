@@ -38,6 +38,7 @@
   "dependencies": {
     "commander": "^11.1.0",
     "fs-extra": "^11.2.0",
+    "get-port": "^7.0.0",
     "glob": "^10.3.10",
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.9.0",

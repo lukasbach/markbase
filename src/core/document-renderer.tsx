@@ -34,6 +34,10 @@ export class DocumentRenderer {
     this.marked.use({
       renderer: {
         heading: (text, level) => {
+          if (text === "") {
+            return "";
+          }
+
           const escapedText = text.toLowerCase().replace(/[^\w]+/g, "-");
           this.toc.push({ text, level, id: escapedText });
 

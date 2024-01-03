@@ -8,6 +8,7 @@ export type DocumentBaseConfiguration = {
   relativeUrl?: string;
   rootDocument?: string;
   hoistHeadings?: boolean;
+  hoistMarkdownTitles?: boolean;
   headerButtons?: {
     title?: string;
     icon?: string;
