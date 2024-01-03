@@ -61,8 +61,8 @@
     border-radius: 0;
     font-size: 1rem;
 }
-.tree li:not(:first-child) .hoisted-heading {
-    margin-top: 1.5rem;
+.tree.hoist > li[data-folder-item] {
+    margin-bottom: 1.5rem;
 }
 
 .tree li.active a, .tree li.active button {
