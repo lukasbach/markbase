@@ -200,7 +200,7 @@ document.getElementsByClassName("right")[0]?.addEventListener("click", e => {
 
 const scrollValue = getFromLocalStorage(LsKeys.LeftScroll, 0);
 document.getElementsByClassName("left")[0]?.scrollTo(0, scrollValue);
-document.getElementsByClassName("left")[0]?.addEventListener("scrollend", e => {
+document.getElementsByClassName("left")[0]?.addEventListener("scroll", e => {
     writeToLocalStorage(LsKeys.LeftScroll, (e.target as HTMLElement).scrollTop);
 });
 

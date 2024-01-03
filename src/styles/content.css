@@ -67,8 +67,24 @@ a:hover {
 blockquote {
     border-left: 4px solid var(--primary);
     background-color: var(--bg-dim);
-    margin-left: 1rem;
     padding: 1px 1rem;
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
+    margin: 1.5rem 1rem 0 0;
+}
+blockquote > :last-child {
+    margin-bottom: 1.5rem;
+}
+
+blockquote + blockquote {
+    margin-top: 0;
+}
+
+pre > code {
+    border-radius: 4px;
+}
+
+p {
+    margin: 1.5rem 0 0 0;
+    line-height: 1.5;
 }

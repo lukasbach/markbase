@@ -105,6 +105,15 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendi
 
 !!!
 
+
+!!! tip admonition with multiple paragraphs
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.
+
+Second paragraph.
+
+!!!
+
 ## GFM Alerts
 
 > [!NOTE]
@@ -120,4 +129,9 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendi
 > Critical content demanding immediate user attention due to potential risks.
 
 > [!CAUTION]
+> Negative potential consequences of an action.
+
+> [!CAUTION]
+> Negative potential consequences of an action.
+>
 > Negative potential consequences of an action.
