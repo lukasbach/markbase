@@ -37,6 +37,7 @@
   ],
   "dependencies": {
     "commander": "^11.1.0",
+    "favicons": "^7.1.5",
     "fs-extra": "^11.2.0",
     "get-port": "^7.0.0",
     "glob": "^10.3.10",

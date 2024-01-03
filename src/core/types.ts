@@ -20,6 +20,9 @@ export type DocumentBaseConfiguration = {
   hotreload?: boolean;
   noSidebar?: boolean;
   syntaxTheme?: { light?: string; dark?: string };
+
+  // any config from https://www.npmjs.com/package/favicons
+  favicon?: { source?: string; configuration?: any };
 };
 
 export type TocEntry = {

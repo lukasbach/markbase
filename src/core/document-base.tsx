@@ -21,6 +21,7 @@ import { styleCustomizationPlugin } from "../plugins/style-customization";
 import { loadStyleFilesPlugin } from "../plugins/load-style-files";
 import { markedHighlightPlugin } from "../plugins/marked-highlight";
 import { hoistMarkdownTitlesPlugin } from "../plugins/hoist-markdown-titles";
+import { faviconPlugin } from "../plugins/favicon";
 
 export const DEFAULT_OUT_DIR = "out";
 
@@ -35,6 +36,7 @@ export class DocumentBase {
     styleCustomizationPlugin,
     markedHighlightPlugin,
     hoistMarkdownTitlesPlugin,
+    faviconPlugin,
   ];
 
   public stats: BaseStats = {
@@ -223,8 +225,18 @@ export class DocumentBase {
     await fs.ensureDir(outPath);
 
     for (const file of this.documents) {
-      const content = renderToString(
+      let content = renderToString(
         <DocumentComponent base={this} doc={file} />
+      );
+
+      content = await this.reducePlugins(
+        content,
+        async (acc, plugin) =>
+          plugin.patchRenderedDocument?.({
+            base: this,
+            doc: file,
+            content: acc,
+          }) ?? content
       );
 
       let out = path.join(outPath, file.relativePath);
