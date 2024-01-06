@@ -9,9 +9,13 @@ export const indexFilesPlugin: Plugin = {
         .getFolderItems(folder)
         .find((f) => f.type === "document");
       if (firstFile) {
+        const redirect = path.posix.join(
+          base.config.relativeUrl ?? path.posix.sep,
+          firstFile.fileName
+        );
         await fs.writeFile(
           path.join(base.getOutDir(), folder, "index.html"),
-          `<meta http-equiv="refresh" content="0; url=${firstFile.fileName}/index.html" />`
+          `<meta http-equiv="refresh" content="0; url=${redirect}" />`
         );
       }
     }
@@ -21,9 +25,13 @@ export const indexFilesPlugin: Plugin = {
     );
     // TODO maybe normalize slugs always? Make sure they always start with a slash..
     if (doc) {
+      const redirect = path.posix.join(
+        base.config.relativeUrl ?? path.posix.sep,
+        doc.getSlug()
+      );
       await fs.writeFile(
         path.join(base.getOutDir(), "index.html"),
-        `<meta http-equiv="refresh" content="0; url=${doc.getSlug()}/index.html" />`
+        `<meta http-equiv="refresh" content="0; url=${redirect}" />`
       );
     }
   },

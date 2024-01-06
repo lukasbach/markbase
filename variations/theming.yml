@@ -1,0 +1,8 @@
+out: ./out/theming
+title: With custom theme
+relativeUrl: /theming
+styles:
+  primary: red
+  fg: green
+  left-width: 500px
+  font: "Comic Sans MS"

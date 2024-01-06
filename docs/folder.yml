@@ -1,4 +1,9 @@
 itemOrder:
   - root
   - examples
+  - config
   - syntax
+  - icons
+  - order
+  - title
+  - sample

@@ -44,7 +44,7 @@ export const SubTree: FC<{
               className={item.slug === doc.getSlug() ? "active" : ""}
               key={item.slug}
             >
-              <a href={item.slug}>
+              <a href={item.doc.getHref(base.config.relativeUrl)}>
                 {item.frontmatter?.icon ? (
                   <IconByString iconKey={item.frontmatter?.icon} />
                 ) : null}

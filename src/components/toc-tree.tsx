@@ -5,7 +5,7 @@ export const TocSubTree: FC<{ items: TocEntry[] }> = ({ items }) => {
   return items.map((item) => (
     <li key={item.id}>
       <a href={`#${item.id}`}>
-        <span>{item.text}</span>
+        <span dangerouslySetInnerHTML={{ __html: item.text }} />
       </a>
       {item.children?.length && (
         <ul>

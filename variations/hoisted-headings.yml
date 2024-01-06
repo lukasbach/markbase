@@ -1,0 +1,4 @@
+out: ./out/hoisted-headings
+hoistHeadings: true
+title: With Hoisted headings
+relativeUrl: /hoisted-headings

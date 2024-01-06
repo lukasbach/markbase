@@ -83,4 +83,8 @@ export class DocumentFile {
       this.excerp
     );
   }
+
+  getHref(relativeUrl?: string) {
+    return path.posix.join(relativeUrl ?? path.posix.sep, this.getSlug());
+  }
 }

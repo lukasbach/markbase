@@ -82,14 +82,12 @@ export const patchHrefsPlugin: Plugin = {
       },
     });
 
-    if (base.config.relativeUrl) {
-      marked.use(
-        (await import("marked-base-url")).baseUrl(
-          base.config.relativeUrl
-        ) as any
-        // TODO URLs from root ("/abc") are ignored, might want to patch as well
-        // baseUrl(path.posix.join(base.config.relativeUrl, doc.getSlug()))
-      );
-    }
+    // if (base.config.relativeUrl) {
+    //   marked.use(
+    //     baseUrl(base.config.relativeUrl) as any
+    //     // TODO URLs from root ("/abc") are ignored, might want to patch as well
+    //     // baseUrl(path.posix.join(base.config.relativeUrl, doc.getSlug()))
+    //   );
+    // }
   },
 };
