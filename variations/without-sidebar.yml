@@ -1,0 +1,4 @@
+out: ./out/without-sidebar
+noSidebar: true
+title: Without Sidebar
+relativeUrl: /without-sidebar

@@ -8,6 +8,7 @@ import { DEFAULT_OUT_DIR, DocumentBase } from "../core/document-base";
 export interface BuildOptions {
   out?: string;
   port?: string;
+  config?: string;
 }
 
 export const watchCommand = new Command("watch");
@@ -16,11 +17,12 @@ watchCommand.argument("<path>", "Path to the document base");
 
 watchCommand.option("-o, --out <path>", "Path to the output directory");
 watchCommand.option("-p, --port <port>", "Server port");
+watchCommand.option("-c, --config <path>", "Path config file");
 
 let lastRebuild = Date.now();
 
 watchCommand.action(async (basePath, options: BuildOptions) => {
-  const base = await DocumentBase.fromPath(basePath);
+  const base = await DocumentBase.fromPath(basePath, options.config);
   base.config.hotreload ??= true;
   base.setOutDir(options.out);
   await base.build();
@@ -47,11 +49,11 @@ watchCommand.action(async (basePath, options: BuildOptions) => {
       return;
     }
 
-    lastRebuild = Date.now();
-    const base = await DocumentBase.fromPath(basePath);
+    const base = await DocumentBase.fromPath(basePath, options.config);
     base.config.hotreload ??= true;
     base.setOutDir(options.out);
     await base.build();
+    lastRebuild = Date.now();
     console.log("Rebuilt document base.");
     ws.clients.forEach((c) => c.send("update"));
   };

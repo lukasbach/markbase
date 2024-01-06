@@ -11,22 +11,20 @@ export const indexFilesPlugin: Plugin = {
       if (firstFile) {
         await fs.writeFile(
           path.join(base.getOutDir(), folder, "index.html"),
-          `<meta http-equiv="refresh" content="0; url=${firstFile.fileName}" />`
+          `<meta http-equiv="refresh" content="0; url=${firstFile.fileName}/index.html" />`
         );
       }
     }
 
-    if (base.config.rootDocument) {
-      const doc = base.documents.find(
-        (d) => d.getSlug() === base.config.rootDocument
+    const doc = base.documents.find(
+      (d) => d.getSlug() === (base.config.rootDocument ?? "/root")
+    );
+    // TODO maybe normalize slugs always? Make sure they always start with a slash..
+    if (doc) {
+      await fs.writeFile(
+        path.join(base.getOutDir(), "index.html"),
+        `<meta http-equiv="refresh" content="0; url=${doc.getSlug()}/index.html" />`
       );
-      // TODO maybe normalize slugs always? Make sure they always start with a slash..
-      if (doc) {
-        await fs.writeFile(
-          path.join(base.getOutDir(), "index.html"),
-          `<meta http-equiv="refresh" content="0; url=${doc.getSlug()}" />`
-        );
-      }
     }
   },
 };

@@ -55,10 +55,12 @@ export class DocumentBase {
     public readonly folderConfigs: Record<string, FolderConfig>
   ) {
     this.calculateStats();
+
+    this.plugins.push(...(config.plugins ?? []));
   }
 
-  static async fromPath(basePath: string) {
-    const config = await DocumentBase.loadConfig(basePath);
+  static async fromPath(basePath: string, configPath?: string) {
+    const config = await DocumentBase.loadConfig(basePath, configPath);
     const folderConfigs: Record<string, FolderConfig> = {};
     const files: DocumentFile[] = [];
 
@@ -78,7 +80,8 @@ export class DocumentBase {
     )) {
       const folder = path.dirname(folderConfig);
       const config = await getConfigFileAt(path.join(basePath, folderConfig));
-      folderConfigs[path.sep + folder] = config;
+      const patchedFolder = folder === "." ? path.sep : `${path.sep}${folder}`;
+      folderConfigs[patchedFolder] = config;
     }
 
     for (const file of await globAll(config?.documents ?? ["**/*.md"], {
@@ -88,6 +91,9 @@ export class DocumentBase {
         await DocumentFile.fromPath(path.join(basePath, file), basePath)
       );
     }
+
+    config.basePath = basePath;
+    config.out = path.join(basePath, config.out ?? DEFAULT_OUT_DIR);
 
     return new DocumentBase(files, config, folderConfigs);
   }
@@ -101,9 +107,10 @@ export class DocumentBase {
   }
 
   static async loadConfig(
-    basePath: string
+    basePath: string,
+    configPath?: string
   ): Promise<DocumentBaseConfiguration> {
-    return getConfigFileAt(path.join(basePath, "config"));
+    return getConfigFileAt(configPath ?? path.join(basePath, "config"));
   }
 
   getFolderConfig(folder: string) {

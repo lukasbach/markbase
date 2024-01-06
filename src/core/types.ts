@@ -1,4 +1,5 @@
 import { DocumentFile } from "./document-file";
+import { Plugin } from "./plugin";
 
 export type DocumentBaseConfiguration = {
   title?: string;
@@ -18,14 +19,19 @@ export type DocumentBaseConfiguration = {
   }[];
   styles: Record<string, string>;
   lightStyles: Record<string, string>;
-  hotreload?: boolean;
   noSidebar?: boolean;
   syntaxTheme?: { light?: string; dark?: string };
+  plugins?: Plugin[];
 
   // any config from https://www.npmjs.com/package/favicons
   favicon?: { source?: string; configuration?: any };
 
   seo?: { twitterHandle?: string };
+
+  /** @internal */
+  basePath: string;
+  /** @internal */
+  hotreload?: boolean;
 };
 
 export type TocEntry = {
