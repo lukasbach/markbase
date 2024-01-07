@@ -6,6 +6,8 @@ icon: VscRepo
 
 Markbase is a simple, lightweight, and fast static site generator that turns a bunch of markdown files into a website.
 
+![demo.png](./demo.png)
+
 Features:
 - As simple as it can get, just call `markbase build folder/to/markdown/files` to get your output
 - Watch mode, just call `markbase watch folder/to/markdown/files` to open a local server and automatically rebuild your site on file changes

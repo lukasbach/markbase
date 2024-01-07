@@ -6,6 +6,7 @@ styles:
   fg: green
   left-width: 500px
   font: "Comic Sans MS"
+assets: ["**/*.png"]
 headerButtons:
   - title: Back to root
     icon: IoChevronBack

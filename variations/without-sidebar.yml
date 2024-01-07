@@ -2,6 +2,7 @@ out: ./out/without-sidebar
 noSidebar: true
 title: Without Sidebar
 relativeUrl: /without-sidebar
+assets: ["**/*.png"]
 headerButtons:
   - title: Back to root
     icon: IoChevronBack

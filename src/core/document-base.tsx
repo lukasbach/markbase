@@ -24,6 +24,8 @@ import { hoistMarkdownTitlesPlugin } from "../plugins/hoist-markdown-titles";
 import { faviconPlugin } from "../plugins/favicon";
 import { seoPlugin } from "../styles/seo";
 import { obsidianLinksPlugin } from "../plugins/obsidian-links";
+import { assetsPlugin } from "../plugins/assets";
+import { maxImageWidthPlugin } from "../plugins/max-image-width";
 
 export const DEFAULT_OUT_DIR = "out";
 
@@ -41,6 +43,8 @@ export class DocumentBase {
     faviconPlugin,
     seoPlugin,
     obsidianLinksPlugin,
+    assetsPlugin,
+    maxImageWidthPlugin,
   ];
 
   public stats: BaseStats = {

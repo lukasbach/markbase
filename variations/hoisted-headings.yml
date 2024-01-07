@@ -2,6 +2,7 @@ out: ./out/hoisted-headings
 hoistHeadings: true
 title: With Hoisted headings
 relativeUrl: /hoisted-headings
+assets: ["**/*.png"]
 headerButtons:
   - title: Back to root
     icon: IoChevronBack

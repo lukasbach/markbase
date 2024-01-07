@@ -1,3 +1,4 @@
 title: Markbase
+assets: ["**/*.png"]
 favicon:
   source: "icon:VscRepo"
