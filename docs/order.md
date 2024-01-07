@@ -1,3 +1,7 @@
+---
+icon: VscListUnordered 
+---
+
 # Customizing item orders
 
 You can customize the order of items in the sidebar by using a `folder.yml` file.

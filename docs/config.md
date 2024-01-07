@@ -1,3 +1,7 @@
+---
+icon: VscSettingsGear
+---
+
 # Configurability
 
 You can configure how markbase generates your site by creating a configuration file `config.yml` at the root of your

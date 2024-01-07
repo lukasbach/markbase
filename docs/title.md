@@ -1,3 +1,7 @@
+---
+icon: VscCaseSensitive
+---
+
 # Customizing a document title
 
 There are several ways to customize which title a document has.

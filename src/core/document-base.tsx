@@ -23,6 +23,7 @@ import { markedHighlightPlugin } from "../plugins/marked-highlight";
 import { hoistMarkdownTitlesPlugin } from "../plugins/hoist-markdown-titles";
 import { faviconPlugin } from "../plugins/favicon";
 import { seoPlugin } from "../styles/seo";
+import { obsidianLinksPlugin } from "../plugins/obsidian-links";
 
 export const DEFAULT_OUT_DIR = "out";
 
@@ -39,6 +40,7 @@ export class DocumentBase {
     hoistMarkdownTitlesPlugin,
     faviconPlugin,
     seoPlugin,
+    obsidianLinksPlugin,
   ];
 
   public stats: BaseStats = {
@@ -260,7 +262,10 @@ export class DocumentBase {
       await fs.writeFile(out, content);
     }
 
-    await fs.copy(path.join(__dirname, "../../dist-client"), outPath);
+    await fs.copy(path.join(__dirname, "../../dist-client"), outPath, {
+      errorOnExist: false,
+      overwrite: true,
+    });
 
     const styles = await this.reducePlugins("", async (acc, plugin) =>
       plugin.patchCss?.({ base: this, css: acc })

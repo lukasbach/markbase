@@ -1,3 +1,7 @@
+---
+icon: VscSymbolMisc 
+---
+
 # Using Icons
 
 Various parts of markbase allow you to use icons. You can either use icons in the sidebar for files and folders,

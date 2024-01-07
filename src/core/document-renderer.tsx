@@ -15,9 +15,7 @@ export class DocumentRenderer {
   }
 
   static async create() {
-    const marked = new Marked({
-      extensions: [],
-    });
+    const marked = new Marked({ gfm: true, extensions: [] });
 
     marked.use(
       (await import("marked-code-format")).default as any,

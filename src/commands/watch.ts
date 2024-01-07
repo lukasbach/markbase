@@ -45,9 +45,10 @@ watchCommand.action(async (basePath, options: BuildOptions) => {
   base.logStats();
 
   const rebuild = async () => {
-    if (Date.now() - lastRebuild < 1000) {
+    if (Date.now() - lastRebuild < 5000) {
       return;
     }
+    lastRebuild = Date.now();
 
     const base = await DocumentBase.fromPath(basePath, options.config);
     base.config.hotreload ??= true;
