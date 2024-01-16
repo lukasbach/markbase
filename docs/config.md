@@ -75,7 +75,9 @@ pointing to `/` will be rewritten to point to this document. The default is `roo
 ## `hoistHeadings`
 
 In the sidebar, the top-level headings will be shown as expanded sections. As example, you can see this documentation
-generated with this setting set to true here TODO
+generated with this setting set to true [here](https://markbase.lukasbach.com/hoisted-headings/root/) (it's not
+a great example since the documentation is fairly flat, but note the "Sample files" folder which is displayed as
+dedicated section rather just a subfolder).
 
 ## `hoistMarkdownTitles`
 
@@ -138,7 +140,7 @@ lightStyles:
 ## `noSidebar`
 
 Hide the sidebar. The default is `false`. Hyperlinks between documents will still work as the primary
-means of navigating the page. As example, you can see this documentation generated with this setting set to true here TODO.
+means of navigating the page. As example, you can see this documentation generated with this setting set to true [here](https://markbase.lukasbach.com/without-sidebar/root/).
 
 ## `syntaxTheme`
 
