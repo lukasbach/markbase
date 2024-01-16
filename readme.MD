@@ -1,7 +1,3 @@
----
-icon: VscRepo
----
-
 # Markbase
 
 Markbase is a simple, lightweight, and fast static site generator that turns a bunch of markdown files into a website.

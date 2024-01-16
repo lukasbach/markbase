@@ -109,5 +109,6 @@
   "cpu": [
     "x64",
     "arm64"
-  ]
+  ],
+  "repository": "https://github.com/lukasbach/document-fast.git"
 }
