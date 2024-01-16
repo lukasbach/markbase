@@ -20,7 +20,7 @@ export const obsidianLinksPlugin: Plugin = {
 
             const matchedDocument = match[1];
             const document = base.documents.find(
-              (doc) => doc.getFileName() === matchedDocument
+              (doc) => doc.getFileName() === matchedDocument,
             );
 
             if (!document) {
@@ -33,7 +33,7 @@ export const obsidianLinksPlugin: Plugin = {
               text: document.getDisplayName(),
               href: path.posix.join(
                 base.config.relativeUrl ?? "",
-                document.getSlug()
+                document.getSlug(),
               ),
               tokens: [
                 {

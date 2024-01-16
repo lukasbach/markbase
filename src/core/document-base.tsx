@@ -58,7 +58,7 @@ export class DocumentBase {
   private constructor(
     public readonly documents: DocumentFile[],
     public readonly config: DocumentBaseConfiguration,
-    public readonly folderConfigs: Record<string, FolderConfig>
+    public readonly folderConfigs: Record<string, FolderConfig>,
   ) {
     this.calculateStats();
 
@@ -82,7 +82,7 @@ export class DocumentBase {
       ],
       {
         cwd: basePath,
-      }
+      },
     )) {
       const folder = path.dirname(folderConfig);
       const config = await getConfigFileAt(path.join(basePath, folderConfig));
@@ -94,7 +94,7 @@ export class DocumentBase {
       cwd: basePath,
     })) {
       files.push(
-        await DocumentFile.fromPath(path.join(basePath, file), basePath)
+        await DocumentFile.fromPath(path.join(basePath, file), basePath),
       );
     }
 
@@ -114,7 +114,7 @@ export class DocumentBase {
 
   static async loadConfig(
     basePath: string,
-    configPath?: string
+    configPath?: string,
   ): Promise<DocumentBaseConfiguration> {
     return getConfigFileAt(configPath ?? path.join(basePath, "config"));
   }
@@ -125,7 +125,7 @@ export class DocumentBase {
 
   getFolderFiles(folder: string) {
     return this.documents.filter(
-      (d) => d.getFolder() === path.normalize(`${folder}/`)
+      (d) => d.getFolder() === path.normalize(`${folder}/`),
     );
     // sort not needed since only function consumer is already sorting..+
     // .sort((a, b) => {
@@ -151,7 +151,7 @@ export class DocumentBase {
         .map((d) => d.substring(folder.length))
         .filter((d) => d !== "")
         .map((d) => d.split(path.sep)[1])
-        .filter((d) => d !== "")
+        .filter((d) => d !== ""),
     );
     return [...subfolders];
   }
@@ -162,7 +162,7 @@ export class DocumentBase {
     const subfolders = this.getFolderSubfolders(folder).map<FolderItem>(
       (subFolder) => {
         const subfolderConfig = this.getFolderConfig(
-          path.join(folder, subFolder)
+          path.join(folder, subFolder),
         );
         return {
           type: "folder",
@@ -175,7 +175,7 @@ export class DocumentBase {
           folderConfig: subfolderConfig,
           fileName: subFolder,
         };
-      }
+      },
     );
 
     return [...subfolders, ...files].sort((a, b) => {
@@ -230,7 +230,7 @@ export class DocumentBase {
           base: this,
           doc,
           marked: doc.renderer.getMarked(),
-        })
+        }),
       );
 
       // do an early run of rendering so that plugins, that use markdown data for modifying frontmatter,
@@ -243,7 +243,7 @@ export class DocumentBase {
 
     for (const file of this.documents) {
       let content = renderToString(
-        <DocumentComponent base={this} doc={file} />
+        <DocumentComponent base={this} doc={file} />,
       );
 
       content = await this.reducePlugins(
@@ -253,13 +253,13 @@ export class DocumentBase {
             base: this,
             doc: file,
             content: acc,
-          }) ?? content
+          }) ?? content,
       );
 
       let out = path.join(outPath, file.relativePath);
       out = `${out.substr(
         0,
-        out.length - path.extname(out).length
+        out.length - path.extname(out).length,
       )}/index.html`;
 
       await fs.ensureDir(path.dirname(out));
@@ -272,12 +272,12 @@ export class DocumentBase {
     });
 
     const styles = await this.reducePlugins("", async (acc, plugin) =>
-      plugin.patchCss?.({ base: this, css: acc })
+      plugin.patchCss?.({ base: this, css: acc }),
     );
     await fs.writeFile(path.join(outPath, "style.css"), styles);
 
     await this.reducePlugins(undefined, (_, plugin) =>
-      plugin.postbuild?.(this)
+      plugin.postbuild?.(this),
     );
   }
 
@@ -287,8 +287,8 @@ export class DocumentBase {
       `Found ${this.stats.documents} documents with ${
         this.stats.words
       } words, ${this.stats.characters} characters, ${Math.floor(
-        this.stats.size / 1024
-      )}KB`
+        this.stats.size / 1024,
+      )}KB`,
     );
   }
 
@@ -296,8 +296,8 @@ export class DocumentBase {
     initial: T,
     reducer: (
       acc: T,
-      plugin: Plugin
-    ) => Promise<T | undefined | void> | undefined | void
+      plugin: Plugin,
+    ) => Promise<T | undefined | void> | undefined | void,
   ) {
     let acc = initial;
     for (const plugin of this.plugins) {

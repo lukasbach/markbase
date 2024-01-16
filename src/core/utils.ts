@@ -33,7 +33,7 @@ export const tryToGetLastEditDate = async (file: string) => {
   try {
     let stdout = "";
     const result = await exec(
-      `git log -1 --pretty="format:%ci" --format=%cI ${file}`
+      `git log -1 --pretty="format:%ci" --format=%cI ${file}`,
     );
     result.stdout?.on("data", (data) => {
       stdout += data;
@@ -52,7 +52,7 @@ export const tryToGetLastEditDate = async (file: string) => {
 export const getConfigFileAt = async (configFile: string) => {
   const file = path.join(
     path.dirname(configFile),
-    path.basename(configFile, path.extname(configFile))
+    path.basename(configFile, path.extname(configFile)),
   );
   if (await fs.pathExists(`${file}.json`)) {
     return fs.readJson(`${file}.json`);

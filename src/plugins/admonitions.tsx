@@ -52,7 +52,7 @@ export const admonitionsPlugin: Plugin = {
   prepareMarked: async ({ marked }) => {
     marked.use(
       (await import("marked-admonition-extension")).default as any,
-      (await import("marked-alert")).default() as any
+      (await import("marked-alert")).default() as any,
     );
   },
 };

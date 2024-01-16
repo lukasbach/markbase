@@ -22,7 +22,7 @@ export class DocumentRenderer {
       // @ts-ignore
       (await import("marked-custom-heading-id")).default as any,
       (await import("marked-footnote")).default as any,
-      (await import("marked-linkify-it")).default as any
+      (await import("marked-linkify-it")).default as any,
     );
 
     return new DocumentRenderer(marked);

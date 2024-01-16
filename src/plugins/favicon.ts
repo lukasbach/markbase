@@ -22,7 +22,7 @@ export const faviconPlugin: Plugin = {
     const { favicons } = await import("favicons");
     faviconResponse = await favicons(
       base.config.favicon.source,
-      base.config.favicon.configuration ?? {}
+      base.config.favicon.configuration ?? {},
     );
   },
   postbuild: async (base) => {
@@ -38,7 +38,7 @@ export const faviconPlugin: Plugin = {
   patchRenderedDocument: async ({ content }) => {
     return content.replace(
       "</head>",
-      `${faviconResponse.html.join("")}</head>`
+      `${faviconResponse.html.join("")}</head>`,
     );
   },
 };

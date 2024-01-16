@@ -7,7 +7,7 @@ const prefixCssRules = (css: string, prefix: string) => {
   // no clue what this regex does, but thanks copilot
   return css.replaceAll(
     /([^\r\n,{}]+)(,(?=[^}]*{)|\s*{)/g,
-    (match) => `${prefix} ${match}`
+    (match) => `${prefix} ${match}`,
   );
 };
 
@@ -20,7 +20,7 @@ export const markedHighlightPlugin: Plugin = {
           const language = hljs.getLanguage(lang) ? lang : "plaintext";
           return hljs.highlight(code, { language }).value;
         },
-      }) as any
+      }) as any,
     );
   },
 
@@ -30,17 +30,17 @@ export const markedHighlightPlugin: Plugin = {
       path.join(
         __dirname,
         "../../highlight-styles",
-        `${base.config.syntaxTheme?.dark ?? "atom-one-dark"}.css`
+        `${base.config.syntaxTheme?.dark ?? "atom-one-dark"}.css`,
       ),
-      "utf-8"
+      "utf-8",
     );
     const light = await fs.readFile(
       path.join(
         __dirname,
         "../../highlight-styles",
-        `${base.config.syntaxTheme?.light ?? "atom-one-light"}.css`
+        `${base.config.syntaxTheme?.light ?? "atom-one-light"}.css`,
       ),
-      "utf-8"
+      "utf-8",
     );
 
     styles += prefixCssRules(dark, ".dark ");

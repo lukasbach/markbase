@@ -18,7 +18,7 @@ export class DocumentFile {
     public readonly contents: string,
     public readonly fileSize: number,
     public readonly lastEdit: Date | undefined,
-    public readonly renderer: DocumentRenderer
+    public readonly renderer: DocumentRenderer,
   ) {
     const { data, excerpt, content } = grayMatter(contents, { excerpt: true });
     this.frontmatter = data;
@@ -33,7 +33,7 @@ export class DocumentFile {
       await fs.readFile(filePath, "utf-8"),
       await fs.stat(filePath).then((stats) => stats.size),
       await tryToGetLastEditDate(filePath),
-      await DocumentRenderer.create()
+      await DocumentRenderer.create(),
     );
     doc.renderer.setDocument(doc);
     return doc;
