@@ -101,5 +101,13 @@
   "publish": {
     "preScripts": "build,lint",
     "releaseNotesSource": "next-releasenotes.md"
-  }
+  },
+  "os": [
+    "linux",
+    "win32"
+  ],
+  "cpu": [
+    "x64",
+    "arm64"
+  ]
 }
