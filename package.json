@@ -26,7 +26,8 @@
     "lint:fix": "eslint . --fix",
     "release": "publish-fast",
     "start": "ts-node src/index.ts",
-    "dev": "yarn start watch ./sample"
+    "dev": "yarn start watch ./sample",
+    "dev:docs": "yarn start watch ./docs"
   },
   "files": [
     "dist-client/**/*",

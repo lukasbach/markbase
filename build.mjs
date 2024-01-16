@@ -12,8 +12,8 @@
   await fs.copy("./readme.MD", "./docs/root.md");
   await fs.copy("./demo.png", "./docs/demo.png");
 
-  await $`yarn start build ./docs`
-  await $`yarn start build ./docs -c ./variations/hoisted-headings.yml`
-  await $`yarn start build ./docs -c ./variations/theming.yml`
-  await $`yarn start build ./docs -c ./variations/without-sidebar.yml`
+  await $`node ./lib/index.js build ./docs`
+  await $`node ./lib/index.js build ./docs -c ./variations/hoisted-headings.yml`
+  await $`node ./lib/index.js build ./docs -c ./variations/theming.yml`
+  await $`node ./lib/index.js build ./docs -c ./variations/without-sidebar.yml`
 })();
