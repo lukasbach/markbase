@@ -1,0 +1,6 @@
+{
+  "repo": "markbase",
+  "title": "Markbase",
+  "category": "cli",
+  "cliexample": "markbase build ./path/to/markdown/files"
+}
