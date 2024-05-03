@@ -15,7 +15,7 @@ export const indexFilesPlugin: Plugin = {
         );
         await fs.writeFile(
           path.join(base.getOutDir(), folder, "index.html"),
-          `<meta http-equiv="refresh" content="0; url=${redirect}" />`,
+          `<meta http-equiv="refresh" content="0; url=${redirect}/" />`,
         );
       }
     }
@@ -31,7 +31,7 @@ export const indexFilesPlugin: Plugin = {
       );
       await fs.writeFile(
         path.join(base.getOutDir(), "index.html"),
-        `<meta http-equiv="refresh" content="0; url=${redirect}" />`,
+        `<meta http-equiv="refresh" content="0; url=${redirect}/" />`,
       );
     }
   },
